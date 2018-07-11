@@ -34,7 +34,14 @@ import io.netty.channel.pool.ChannelPoolHandler;
 import io.netty.channel.pool.FixedChannelPool.AcquireTimeoutAction;
 
 /**
- * 管理多个连接池，线程安全
+ * 管理多个连接池，线程安全。
+ * {@code  
+ * NettyChannelPoolManager poolManager = new NettyChannelPoolManager();
+ * poolManager.setGlobalEventLoopGroup(globalEventLoopGroup);//如果已经有eventloopgroup了，最好用现有的，没必要重新起，浪费cpu
+ * poolManager.setMaxConnectionsPerPool(xxxx);//设置一下每个pool的最大连接数，每个链接维持需要消耗资源，如果不是同步等待服务器应答，没必要启动太多，默认是processor数*2
+ * poolManager.start();
+ * }
+ *
  *
  * @ClassName:  NettyChannelPoolManager
  * @author: Michael
@@ -83,14 +90,17 @@ public class NettyChannelPoolManager extends Service {
 	}
 
 	/**
-	 *直接从map中获取pool，如果没有，不会初始化
+	 *直接从map中获取pool，如果没有，直接抛出异常
 	 *
 	 * @param addr the addr
 	 * @return pool 属性
 	 * @throws Exception the exception
 	 */
 	public NettyChannelPool getPool(SocketAddress addr) throws Exception {
-		return pools.get(addr);
+		NettyChannelPool pool = pools.get(addr);
+		if (pool != null)
+			return pool;
+		throw new NoSuchPoolException(addr.toString());
 	}
 
 	public NettyChannelPool getPool(SocketAddress addr, ChannelInitializer<Channel> channelInitializer) throws Exception {

@@ -45,7 +45,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 
 /**
- * 为netty提供长连接的连接池
+ * 为netty提供长连接的连接池，采用装饰模式封装了{@link io.netty.channel.pool.FixedChannelPool}。
  *
  * @ClassName:  NettyConnPool
  * @author: Michael
