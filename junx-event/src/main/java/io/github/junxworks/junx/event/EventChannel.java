@@ -23,19 +23,19 @@ import io.github.junxworks.junx.core.lifecycle.Lifecycle;
  * 每个通道有且只有一个{@link io.github.junxworks.junx.event.EventChannelHandler}。
  * 目前EventChannel的实现有两个类，跟事件总线{@link io.github.junxworks.junx.event.EventBus}类似，通道的两个实现一个是基于
  * 多线程的实现{@link io.github.junxworks.junx.event.impl.ExecutorEventChannel}，另外一个是基于单线程的实现{@link io.github.junxworks.junx.event.impl.SimpleEventChannel}，
- * 两者的区别就是在事件总线EventBus中，dispatcher调度的时候，ConcurrentEventChannel直接由当前线程提交到线程池中执行EventHandler方法，而SimpleEventChannel
+ * 两者的区别就是在事件总线EventBus中，dispatcher调度的时候，ExecutorEventChannel直接由当前线程提交到线程池中执行EventHandler方法，而SimpleEventChannel
  * 就直接在当前线程执行EventHandler方法。<br/>
  * 目前两类事件通道EventChannel可以跟两类事件总线EventBus组合使用，不同的组合有不同的效果：<br/>
  * 1、SimpleEventBus+SimpleEventChannel=事件同步提交，事件同步执行，事件总线在总体架构中只起到模块化松耦合的作用。<br/>
- * 2、SimpleEventBus+ConcurrentEventChannel=事件同步提交，事件异步执行，此功能是异步提交任务功能。<br/>
+ * 2、SimpleEventBus+ExecutorEventChannel=事件同步提交，事件异步执行，此功能是异步提交任务功能。<br/>
  * 3、DisruptorEventBus+SimpleEventChannel=事件异步提交，事件处理由单线程异步执行，效率比线程池和阻塞队列高很多<br/>
- * 4、DisruptorEventBus+ConcurrentEventChannel=事件异步提交，事件异步执行，由于DisruptorEventBus内部是单线程提交，
- * 		因此搭配{@link io.github.junxworks.junx.event.impl.ExecutorEventChannel}使用的时候要注意，ConcurrentEventChannel
+ * 4、DisruptorEventBus+ExecutorEventChannel=事件异步提交，事件异步执行，由于DisruptorEventBus内部是单线程提交，
+ * 		因此搭配{@link io.github.junxworks.junx.event.impl.ExecutorEventChannel}使用的时候要注意，ExecutorEventChannel
  * 		内部使用的RejectedExecutionHandler策略是CallerRunsPolicy，由调度线程自己去执行任务，线程来回切换非常消耗CPU，
  * 		因此单线程调度的DisruptorEventBus可能会由于内部执行task而影响性能，因此不建议采用这种组合方式。
  * <br/>关于事件总线的说明，可以参考{@link EventBus}。
  * 
- * 新增{@link io.github.junxworks.junx.event.impl.DisruptorEventChannel}disruptor通道，跟ConcurrentEventChannel一样，属于异步通道，
+ * 新增{@link io.github.junxworks.junx.event.impl.DisruptorEventChannel}disruptor通道，跟ExecutorEventChannel一样，属于异步通道，
  * 内部是采用单线程处理，效率非常高，推荐计算密集型模块使用此通道。
  * 
  * @author: Michael

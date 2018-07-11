@@ -154,7 +154,7 @@ public class ExecutorEventChannel extends AbstractEventChannel {
 				shutdownExecutor = true; //内部生产的线程池需要在stop的时候关掉
 			}
 		} catch (Throwable e) {
-			throw new FatalException(StringUtils.format("Exception accurred when start ConcurrentEventChannel \"%s\" on topic \"%s\"", getServiceName(), topic), e);
+			throw new FatalException(StringUtils.format("Exception accurred when start ExecutorEventChannel \"%s\" on topic \"%s\"", getServiceName(), topic), e);
 		}
 	}
 

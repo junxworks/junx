@@ -31,16 +31,16 @@ import io.github.junxworks.junx.core.lifecycle.Lifecycle;
  * &nbsp;&nbsp;事件总线的代码样例：<br/>
  * {@code
  * 	EventBus bus = new SimpleEventBus();   //此处只是举例，具体对象生成可以通过注入或者工厂类提供
-		ConcurrentEventChannel channel = new ConcurrentEventChannel("testTopic"); //new一个事件通道对象
+		ExecutorEventChannel channel = new ExecutorEventChannel("testTopic"); //new一个事件通道对象
 		channel.setName("testChannel");//设置一下事件通道的名称
 		channel.setEventHandler(eventHandler); //设置事件通道的handler，具体事件是在handler里面处理
 		bus.registerChannel(channel);//向bus注册通道
 		bus.start();//启动bus，注意bus的启动是初始化bus的过程，只能执行一次，除非调用bus的stop方法，让bus停止后，再从新启动
  * }
  * <br/>
- * 由于DisruptorEventBus内部是单线程提交，因此搭配{@link io.github.junxworks.junx.event.impl.ExecutorEventChannel}使用的时候要注意，ConcurrentEventChannel
+ * 由于DisruptorEventBus内部是单线程提交，因此搭配{@link io.github.junxworks.junx.event.impl.ExecutorEventChannel}使用的时候要注意，ExecutorEventChannel
  * 内部使用的RejectedExecutionHandler策略是CallerRunsPolicy，由调度线程自己去执行任务，线程来回切换非常消耗CPU，
- * 因此单线程调度的DisruptorEventBus可能会由于内部执行task而影响性能。建议SimpleEventBus搭配ConcurrentEventChannel使用。
+ * 因此单线程调度的DisruptorEventBus可能会由于内部执行task而影响性能。建议SimpleEventBus搭配ExecutorEventChannel使用。
  * 
  * <br/>关于事件通道的说明，可以参考{@link EventChannel}。
  * @author: Michael
