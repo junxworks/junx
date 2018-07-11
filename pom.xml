@@ -187,9 +187,9 @@
 	
 	<scm>
 		<tag>master</tag>
-		<url>git@github.com:junxworks/junx</url>
-		<connection>scm:git:git@github.com:junxworks/junx.git</connection>
-		<developerConnection>scm:git:git@github.com:junxworks/junx.git</developerConnection>
+		<url>https://github.com/junxworks/junx</url>
+		<connection>scm:git:git://github.com/junxworks/junx.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/junxworks/junx.git</developerConnection>
 	</scm>
 
 	<issueManagement>
