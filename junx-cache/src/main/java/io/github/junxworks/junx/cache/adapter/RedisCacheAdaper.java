@@ -19,7 +19,6 @@ package io.github.junxworks.junx.cache.adapter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -198,25 +197,6 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			}
 		}
 		return resMap;
-	}
-
-	@Override
-	public void deleteAll() {
-		jedis.flushDB(); //仅清除当前选择的DB
-	}
-
-	@Override
-	public void deleteAll(KV kv) {
-
-		Set<String> set = jedis.keys(kv.getGroup() + this.SEPARATOR + "*");
-		if (set == null || set.size() == 0)
-			return;
-		Iterator<String> keys = set.iterator();
-		Pipeline p = jedis.pipelined();
-		while (keys.hasNext()) {
-			p.del(keys.next().getBytes());
-		}
-		p.sync();
 	}
 
 	@Override

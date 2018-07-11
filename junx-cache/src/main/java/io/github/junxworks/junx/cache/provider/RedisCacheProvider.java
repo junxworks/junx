@@ -20,6 +20,7 @@ import io.github.junxworks.junx.cache.Cache;
 import io.github.junxworks.junx.cache.CacheEnv;
 import io.github.junxworks.junx.cache.adapter.RedisCacheAdaper;
 import io.github.junxworks.junx.core.exception.BaseRuntimeException;
+import io.github.junxworks.junx.core.exception.FatalException;
 import io.github.junxworks.junx.core.exception.NullParameterException;
 import io.github.junxworks.junx.core.util.StringUtils;
 import redis.clients.jedis.Jedis;
@@ -52,7 +53,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * 2.创建jedis客户端后，使用{@link io.github.junxworks.junx.cache.adapter.RedisCacheAdaper}调用jedis客户端进行相应的处理
  * 
  * @ClassName: RedisCacheProvider
- * @author: 刘晓春
+ * @author: Michael
  * @date: 2017-7-26 9:53:51
  * @since: v1.0
  */
@@ -69,7 +70,7 @@ public class RedisCacheProvider extends AbstractCacheProvider {
 
 	/** 最小空闲连接数100. */
 	private static final int DEFAUL_MAX_IDLE = 100;
-	
+
 	/** 默认查询的数据库 */
 	private static final int DEFAUL_DB_INDEX = 0;
 
@@ -96,7 +97,7 @@ public class RedisCacheProvider extends AbstractCacheProvider {
 
 	/** 最小空闲连接数, 默认0. */
 	private static final String REDIS_MAX_IDLE = "maxIdle";
-	
+
 	/** 默认查询的数据 */
 	private static final String REDIS_DB_INDEX = "dbIndex";
 
@@ -116,18 +117,11 @@ public class RedisCacheProvider extends AbstractCacheProvider {
 	 * 
 	 * @return Jedis
 	 */
-	public Jedis getJedis() {
-		Jedis jedis = null;
-		try {
-			if (jedisPool != null) {
-				jedis = jedisPool.getResource();
-			} else {
-				throw new NullParameterException("JedisPool cannot be null");
-			}
-		} catch (Exception e) {
-			throw new BaseRuntimeException("From jedisPool get jedis anomaly", e);
+	private Jedis getJedis() {
+		if (!isRunning()) {
+			throw new BaseRuntimeException("Redis cache provider is not running.");
 		}
-		return jedis;
+		return jedisPool.getResource();
 	}
 
 	/**
@@ -145,9 +139,6 @@ public class RedisCacheProvider extends AbstractCacheProvider {
 	protected void doStart() throws Throwable {
 		if (jedisPool == null) {
 			CacheEnv env = getEnv();
-			if (env == null) {
-				throw new NullParameterException("Env is equal to null");
-			}
 			if (StringUtils.isNull(env.getString(REDIS_URL, null))) {
 				throw new NullParameterException("No configuration IP and port configuration file");
 			}
@@ -158,12 +149,9 @@ public class RedisCacheProvider extends AbstractCacheProvider {
 				config.setMaxWaitMillis(env.getInteger(REDIS_MAX_WAIT_MILLS, DEFAUL_MAX_WAIT_MILLIS));
 				config.setTestOnBorrow(env.getBoolean(REDIS_TEST_ON_BORROW, DEFAUL_TEST_ON_BORROW));
 				config.setTestOnReturn(env.getBoolean(REDIS_TEST_ON_RETURN, DEFAUL_TEST_ON_RETURN));
-				jedisPool = new JedisPool(config, env.getString(REDIS_URL, null).split(":")[0],
-						Integer.valueOf(env.getString(REDIS_URL, null).split(":")[1]),
-						env.getInteger(REDIS_TIMEOUT, DEFAUL_TIMEOUT), env.getString(REDIS_AUTH, null),
-						env.getInteger(REDIS_DB_INDEX, DEFAUL_DB_INDEX));
+				jedisPool = new JedisPool(config, env.getString(REDIS_URL, null).split(":")[0], Integer.valueOf(env.getString(REDIS_URL, null).split(":")[1]), env.getInteger(REDIS_TIMEOUT, DEFAUL_TIMEOUT), env.getString(REDIS_AUTH, null), env.getInteger(REDIS_DB_INDEX, DEFAUL_DB_INDEX));
 			} catch (Exception e) {
-				throw new BaseRuntimeException("Create a jedisPool anomaly", e);
+				throw new FatalException("Create jedis pool failed.", e);
 			}
 		}
 	}

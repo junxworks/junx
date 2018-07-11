@@ -216,16 +216,6 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public void deleteAll(KV kv) {
-		client.truncate(null, namespace, kv.getGroup(), null);
-	}
-
-	@Override
-	public void deleteAll() {
-		client.truncate(null, namespace, null, null);
-	}
-
-	@Override
 	public List<KV> getAll(KV kv) {
 		final List<KV> kvs = new ArrayList<KV>();
 

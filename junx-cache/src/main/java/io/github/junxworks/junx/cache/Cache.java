@@ -92,23 +92,6 @@ public interface Cache extends Closeable {
 	public void delete(List<KV> kvs) throws Exception;
 
 	/**
-	 * 删除kv对象的group分组对应缓存所有键值.
-	 * Redis:清空KV中group前缀开头的值
-	 * EHCache：没有根据key前缀的模糊查询,只能清空整个cache,效果同deleteAll()
-	 * Aerospike：清空整个set
-	 */
-	public void deleteAll(KV kv) throws Exception;
-	
-	/**
-	 * 删除namespace对应缓存所有键值.
-	 * Redis:清空当前选择的db
-	 * EHCache：清空整个cache
-	 * Aerospike：清空整个namespace
-	 * 
-	 */
-	public void deleteAll() throws Exception;
-	
-	/**
 	 * 查看对应KV是否存在.
 	 *
 	 * @param kv the kv

@@ -108,20 +108,6 @@ public abstract class AbstractCacheAdapter implements Cache {
 	}
 
 	/**
-	 * @see io.github.junxworks.junx.cache.Cache#deleteAll()
-	 */
-	public void deleteAll(KV kv) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#deleteAll()
-	 */
-	public void deleteAll() {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
 	 * 获取KV的过期时间TTL
 	 *
 	 * @param kv the kv

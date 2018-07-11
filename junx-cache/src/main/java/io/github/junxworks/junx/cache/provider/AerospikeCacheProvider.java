@@ -31,7 +31,7 @@ import io.github.junxworks.junx.core.util.StringUtils;
  * aerospike的增删改查操作
  * 	 
  * @ClassName:  AerospikeCacheProvider
- * @author: 司福林
+ * @author: Michael
  * @date:   2017-7-25 14:59:24
  * @since:  v1.0
  */

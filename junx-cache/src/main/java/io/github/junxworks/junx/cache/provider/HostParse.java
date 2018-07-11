@@ -24,7 +24,7 @@ import com.aerospike.client.Host;
  * 将多个ip、port配置装换为多个Host实例
  *
  * @ClassName:  HostParse
- * @author: 司福林
+ * @author: Michael
  * @date:   2017-8-14 14:24:35
  * @since:  v1.0
  */

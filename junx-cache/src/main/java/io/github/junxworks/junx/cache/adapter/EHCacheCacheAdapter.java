@@ -168,14 +168,6 @@ public class EHCacheCacheAdapter extends AbstractCacheAdapter {
 		return resMap;
 	}
 
-	public void deleteAll() {
-		ehcache.clear();
-	}
-	
-	public void deleteAll(KV kv) {
-		ehcache.clear();
-	}
-
 	public List<KV> getAll(KV kv){
 		
 		Iterator<Entry<String, byte[]>> entrys = ehcache.iterator();
