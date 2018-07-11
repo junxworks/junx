@@ -30,7 +30,6 @@
 		</developer>
 	</developers>
   <properties>
-		<!-- base setting -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
@@ -53,7 +52,6 @@
 		<junit.version>4.12</junit.version>
 		<netty.version>4.1.26.Final</netty.version>
 		<msgpack.version>0.8.16</msgpack.version>
-		<!-- build setting -->
 		<maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
 		<maven-war-plugin.version>2.4</maven-war-plugin.version>
@@ -186,32 +184,18 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	  <!-- 本地maven服务器配置 -->
-		<distributionManagement>
-			<repository>
-				<id>local-release</id>
-				<name>本地发布库</name>
-				<url>http://localhost:8081/repository/maven-releases/</url>
-			</repository>
-			<snapshotRepository>
-				<id>local-snapshot</id>
-				<name>本地快照库</name>
-				<url>http://localhost:8081/repository/maven-snapshots/</url>
-			</snapshotRepository>
-		</distributionManagement>
-			<pluginRepositories>
-		<pluginRepository>
-			<id>nexusplugin</id>
-			<name>local仓库</name>
-			<url>http://localhost:8081/repository/maven-public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+	
+	<scm>
+		<tag>master</tag>
+		<url>git@github.com:junxworks/junx</url>
+		<connection>scm:git:git@github.com:junxworks/junx.git</connection>
+		<developerConnection>scm:git:git@github.com:junxworks/junx.git</developerConnection>
+	</scm>
+
+	<issueManagement>
+		<system>Github issues</system>
+		<url>https://github.com/junxworks/junx/issues</url>
+	</issueManagement>
 	
 	<build>
 			<plugins>
