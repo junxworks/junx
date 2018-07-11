@@ -1,0 +1,39 @@
+/*
+ ***************************************************************************************
+ * 
+ * @Title:  EnvInitializer.java   
+ * @Package io.github.junxworks.junx.cache   
+ * @Description: (用一句话描述该文件做什么)   
+ * @author: Michael
+ * @date:   2018-7-11 15:38:51   
+ * @version V1.0 
+ * @Copyright: 2018 JunxWorks. All rights reserved. 
+ * 
+ *  ---------------------------------------------------------------------------------- 
+ * 文件修改记录
+ *     文件版本：         修改人：             修改原因：
+ ***************************************************************************************
+ */
+package io.github.junxworks.junx.cache;
+
+import java.util.List;
+
+import io.github.junxworks.junx.core.lang.Initializable;
+
+/**
+ * 用于初始化缓存上下文的接口
+ *
+ * @ClassName:  EnvInitializer
+ * @author: Michael
+ * @date:   2017-9-13 15:41:07
+ * @since:  v1.0
+ */
+public interface EnvInitializer extends Initializable {
+
+	/**
+	 * 根据实现类自定义的方式去初始化CacheEnv对象
+	 *
+	 * @return the list
+	 */
+	public List<CacheEnv> initCacheEnv() throws Exception;
+}
