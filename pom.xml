@@ -52,14 +52,11 @@
 		<junit.version>4.12</junit.version>
 		<netty.version>4.1.26.Final</netty.version>
 		<msgpack.version>0.8.16</msgpack.version>
-		<maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
-		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
-		<maven-war-plugin.version>2.4</maven-war-plugin.version>
-		<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version>
-		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
-		<maven-install-plugin.version>2.5.2</maven-install-plugin.version>
-		<maven-clean-plugin.version>2.6.1</maven-clean-plugin.version>
-		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+		<maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
 		<maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
 	</properties>
   <dependencies>
@@ -228,7 +225,37 @@
 	                        </goals>  
 	                    </execution>  
 	                </executions>  
-	            </plugin>         
+	            </plugin>
+	            <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-javadoc-plugin</artifactId>
+			      <version>${maven-javadoc-plugin.version}</version>
+			      <executions>
+			        <execution>
+			          <id>attach-javadocs</id>
+			          <goals>
+			            <goal>jar</goal>
+			          </goals>
+			          <configuration>
+						<additionalparam>-Xdoclint:none</additionalparam>
+					  </configuration>
+			        </execution>
+			      </executions>
+			    </plugin>
+			    <plugin>
+			      <groupId>org.apache.maven.plugins</groupId>
+			      <artifactId>maven-gpg-plugin</artifactId>
+			      <version>${maven-gpg-plugin.version}</version>
+			      <executions>
+			        <execution>
+			          <id>sign-artifacts</id>
+			          <phase>verify</phase>
+			          <goals>
+			            <goal>sign</goal>
+			          </goals>
+			        </execution>
+			      </executions>
+			    </plugin>
 			</plugins>
 	</build>
   
