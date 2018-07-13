@@ -34,11 +34,10 @@ import io.github.junxworks.junx.spel.function.FunctionRepository;
 /**
  * 编译工具类
  *
- * @ClassName:  ExpressionUtils
+ * @ClassName:  JCompiler
  * @author: Michael
  * @date:   2018-5-15 14:19:29
-<<<<<<< HEAD
- * @since:  v1.0
+ * @since:  v5.0
  */
 public class JCompiler {
 	private static SpelExpressionParser parser = new SpelExpressionParser(new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, Thread.currentThread().getContextClassLoader()));
@@ -103,73 +102,6 @@ public class JCompiler {
 						FunctionReference f = (FunctionReference) node;
 						String funcName = ObjectUtils.mirror().on(f).get().field("name").toString();
 						Object method = FunctionRepository.currentMethodMap().get(funcName);
-=======
- * @since:  v5.0
- */
-public class Compiler {
-	private static SpelExpressionParser parser = new SpelExpressionParser(new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, Thread.currentThread().getContextClassLoader()));
-
-	public static Expression parse(String expressionString, ParserContext context) throws Exception {
-		try {
-			Expression exp = new Expression();
-			SpelExpression expression = (SpelExpression) parser.parseExpression(expressionString, context);
-			exp.setExpression(expression);
-			exp.setExpString(expressionString);
-			exp.setRootNode(expression.getAST());
-			CheckResult res = check(exp);
-			if (res.isPass()) {
-				return exp;
-			} else {
-				throw new UnavailableExpressionException("Unable to compile expression %s[%s]", expressionString, res.getMessage());
-			}
-		} catch (Exception e) {
-			throw new UnavailableExpressionException("Unable to compile expression %s[%s]", expressionString, ExceptionUtils.getCauseMessage(e));
-		}
-	}
-
-	/**
-	 * 分析表达式内部元素
-	 *
-	 * @param exp the exp
-	 */
-	public static NodeVisitor analyzeExpression(Expression exp, NodeVisitor visitor) {
-		visit(exp.getRootNode(), visitor);
-		return visitor;
-	}
-
-	private static void visit(SpelNode node, NodeVisitor visitor) {
-		visitor.visit(node);
-		int childCount = node.getChildCount();
-		if (childCount > 0) {
-			for (int i = 0; i < childCount; i++) {
-				visit(node.getChild(i), visitor);
-			}
-		}
-	}
-
-	public static Expression parse(String expressionString) throws Exception {
-		return parse(expressionString, null);
-	}
-
-	/**
-	 * 检查表达式是否合法.
-	 *
-	 * @param expression the expression
-	 * @return the test result
-	 * @throws Exception the exception
-	 */
-	public static CheckResult check(Expression expression) throws Exception {
-		CheckResult res = new CheckResult();
-		try {
-			Compiler.analyzeExpression(expression, new NodeVisitor() {
-
-				@Override
-				public void visit(SpelNode node) {
-					if (node instanceof FunctionReference) {
-						FunctionReference f = (FunctionReference) node;
-						String funcName = ObjectUtils.mirror().on(f).get().field("name").toString();
-						Object method = FunctionRepository.funcMap().get(funcName);
->>>>>>> branch 'master' of https://github.com/junxworks/junx.git
 						if (method == null) {
 							throw new UnavailableExpressionException("Function \"%s\" not found.", funcName);
 						}
