@@ -88,7 +88,7 @@ public class FunctionLoadListener implements ApplicationListener<ContextRefreshe
 			return m.toString() + System.lineSeparator();
 		}).forEach(sb::append);
 		log.info("Loaded function list:{}", sb.toString());
-		FunctionRepository.methods().putAll(methods);
+		FunctionRepository.putAllMethods(methods);
 	}
 
 }

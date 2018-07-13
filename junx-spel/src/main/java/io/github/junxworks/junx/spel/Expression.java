@@ -100,7 +100,7 @@ public class Expression {
 	 */
 	public static ExpressionEvaluationContext createContext(Object rootObject) {
 		ExpressionEvaluationContext context = new ExpressionEvaluationContext(rootObject);
-		context.setVariables(FunctionRepository.funcMap()); //补齐内置函数，有条件的话，可以通过反射来检查是否有重复参数
+		context.setVariables(FunctionRepository.currentMethodMap()); //补齐内置函数，有条件的话，可以通过反射来检查是否有重复参数
 		return context;
 	}
 }

@@ -101,7 +101,7 @@ public class JCompiler {
 					if (node instanceof FunctionReference) {
 						FunctionReference f = (FunctionReference) node;
 						String funcName = ObjectUtils.mirror().on(f).get().field("name").toString();
-						Object method = FunctionRepository.funcMap().get(funcName);
+						Object method = FunctionRepository.currentMethodMap().get(funcName);
 						if (method == null) {
 							throw new UnavailableExpressionException("Function \"%s\" not found.", funcName);
 						}
