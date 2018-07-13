@@ -29,7 +29,7 @@ import io.github.junxworks.junx.core.util.StringUtils;
  * @ClassName:  DateFunc
  * @author: Michael
  * @date:   2018-5-18 18:38:40
- * @since:  v5.0
+ * @since:  v1.0
  */
 @Func
 public class DateFunc {

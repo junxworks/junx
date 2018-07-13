@@ -30,7 +30,7 @@ import io.github.junxworks.junx.core.util.StringUtils;
  * @ClassName:  MethodDescriptor
  * @author: Michael
  * @date:   2018-5-17 15:02:00
- * @since:  v5.0
+ * @since:  v1.0
  */
 public class MethodDescriptor {
 

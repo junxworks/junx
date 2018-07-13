@@ -30,7 +30,7 @@ import io.github.junxworks.junx.spel.function.FunctionRepository;
  * @ClassName:  Rule
  * @author: Michael
  * @date:   2018-5-15 14:07:25
- * @since:  v5.0
+ * @since:  v1.0
  */
 public class Expression {
 

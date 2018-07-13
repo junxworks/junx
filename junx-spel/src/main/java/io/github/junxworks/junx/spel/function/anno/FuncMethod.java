@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
  * @ClassName:  FuncMethod
  * @author: Michael
  * @date:   2018-5-18 11:14:34
- * @since:  v5.0
+ * @since:  v1.0
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

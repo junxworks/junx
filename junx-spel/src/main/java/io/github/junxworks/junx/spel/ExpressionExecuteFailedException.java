@@ -24,7 +24,7 @@ import io.github.junxworks.junx.core.exception.BaseRuntimeException;
  * @ClassName:  UnavailableExpressionException
  * @author: Michael
  * @date:   2018-5-15 18:49:07
- * @since:  v5.0
+ * @since:  v1.0
  */
 public class ExpressionExecuteFailedException extends BaseRuntimeException {
 

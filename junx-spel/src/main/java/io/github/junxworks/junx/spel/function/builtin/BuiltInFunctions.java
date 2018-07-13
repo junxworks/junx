@@ -22,7 +22,7 @@ package io.github.junxworks.junx.spel.function.builtin;
  * @ClassName:  BuiltInFunctions
  * @author: Michael
  * @date:   2018-5-18 18:29:47
- * @since:  v5.0
+ * @since:  v1.0
  */
 public class BuiltInFunctions {
 
