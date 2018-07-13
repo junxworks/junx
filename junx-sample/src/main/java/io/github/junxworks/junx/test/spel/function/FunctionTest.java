@@ -28,11 +28,11 @@ import io.github.junxworks.junx.spel.Expression;
 import io.github.junxworks.junx.spel.ExpressionEvaluationContext;
 import io.github.junxworks.junx.spel.JCompiler;
 import io.github.junxworks.junx.spel.function.FunctionRepository;
-import io.github.junxworks.junx.test.spel.Application;
+import io.github.junxworks.junx.test.spel.SpelApplication;
 import io.github.junxworks.junx.test.spel.customize.MyFunc;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = SpelApplication.class)
 @Import({ MyFunc.class }) //引入自定义函数
 public class FunctionTest {
 

@@ -14,12 +14,12 @@ import io.github.junxworks.junx.spel.Expression;
 import io.github.junxworks.junx.spel.ExpressionEvaluationContext;
 import io.github.junxworks.junx.spel.NodeVisitor;
 import io.github.junxworks.junx.spel.function.FunctionRepository;
-import io.github.junxworks.junx.test.spel.Application;
+import io.github.junxworks.junx.test.spel.SpelApplication;
 import io.github.junxworks.junx.test.spel.compiler.Function;
 import io.github.junxworks.junx.spel.JCompiler;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class)
+@SpringBootTest(classes = SpelApplication.class)
 public class CompilerTest {
 
 	private static final String exp1 = "#max(4,2,100.1f)+#min(1,3,-123)";

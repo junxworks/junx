@@ -7,8 +7,8 @@ import io.github.junxworks.junx.spel.function.FunctionLoader;
 
 @FunctionLoader
 @SpringBootApplication
-public class Application {
+public class SpelApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(SpelApplication.class, args);
 	}
 }
