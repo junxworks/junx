@@ -96,11 +96,8 @@ public class NettyChannelPoolManager extends Service {
 	 * @return pool 属性
 	 * @throws Exception the exception
 	 */
-	public NettyChannelPool getPool(SocketAddress addr) throws Exception {
-		NettyChannelPool pool = pools.get(addr);
-		if (pool != null)
-			return pool;
-		throw new NoSuchPoolException(addr.toString());
+	public NettyChannelPool getPool(SocketAddress addr) {
+		return pools.get(addr);
 	}
 
 	public NettyChannelPool getPool(SocketAddress addr, ChannelInitializer<Channel> channelInitializer) throws Exception {
