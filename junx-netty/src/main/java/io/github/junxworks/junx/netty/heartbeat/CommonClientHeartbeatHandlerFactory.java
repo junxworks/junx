@@ -23,7 +23,7 @@ import io.netty.channel.ChannelInboundHandler;
  * 通用客户端心跳处理器工厂
  *
  * @ClassName:  CommonClientHeartbeatHandlerFactory
- * @author: Administrator
+ * @author: Michael
  * @date:   2018-7-7 10:31:24
  * @since:  v1.0
  */

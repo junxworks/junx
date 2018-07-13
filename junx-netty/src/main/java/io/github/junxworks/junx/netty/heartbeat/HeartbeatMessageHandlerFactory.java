@@ -27,7 +27,7 @@ import io.github.junxworks.junx.netty.message.MessageConstants;
  * HeartbeatMessageHandler 对象的工厂类.
  *
  * @ClassName:  HeartbeatMessageFactory
- * @author: Administrator
+ * @author: Michael
  * @date:   2018-5-30 16:00:51
  * @since:  v1.0
  */

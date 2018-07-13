@@ -22,7 +22,7 @@ import io.netty.channel.ChannelInboundHandler;
  * HeartbeatHandler 对象的工厂类.
  *
  * @ClassName:  HeartbeatHandlerFactory
- * @author: Administrator
+ * @author: Michael
  * @date:   2018-7-6 23:07:03
  * @since:  v1.0
  */
