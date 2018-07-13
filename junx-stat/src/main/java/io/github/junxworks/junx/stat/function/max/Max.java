@@ -30,7 +30,7 @@ import io.github.junxworks.junx.stat.function.BaseFunction;
  * @since:  v1.0
  */
 public class Max extends BaseFunction {
-	
+
 	/**   
 	 * <p>Title: getValue</p>   
 	 * <p>Description: </p>   
@@ -41,8 +41,8 @@ public class Max extends BaseFunction {
 	 */
 	@Override
 	public Object getValue(Collection<?> collection, StatContext context) throws Exception {
-		if(collection.size() > 0) {
-			return collection.stream().distinct().max((o1,o2) -> (double)o1 > (double)o2 ? 1:-1).get();				
+		if (collection.size() > 0) {
+			return collection.stream().distinct().max((o1, o2) -> Double.valueOf(o1.toString()) > Double.valueOf(o2.toString()) ? 1 : -1).get();
 		} else {
 			return 0.0;
 		}

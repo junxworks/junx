@@ -42,7 +42,7 @@ public class Min extends BaseFunction {
 	@Override
 	public Object getValue(Collection<?> collection, StatContext context) throws Exception {
 		if(collection.size() > 0) {
-			return collection.stream().distinct().min((o1,o2) -> (double)o1 > (double)o2 ? 1:-1).get();				
+			return collection.stream().distinct().min((o1,o2) -> Double.valueOf(o1.toString()) > Double.valueOf(o2.toString()) ? 1:-1).get();				
 		} else {
 			return 0.0;
 		}
