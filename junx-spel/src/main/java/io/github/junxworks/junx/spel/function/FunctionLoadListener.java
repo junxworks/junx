@@ -22,15 +22,15 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ApplicationContextEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 import com.google.common.collect.Maps;
 
 import io.github.junxworks.junx.core.util.ClockUtils;
-import io.github.junxworks.junx.core.util.ObjectUtils;
 import io.github.junxworks.junx.core.util.ClockUtils.Clock;
+import io.github.junxworks.junx.core.util.ObjectUtils;
 import io.github.junxworks.junx.spel.function.anno.Func;
 import io.github.junxworks.junx.spel.function.anno.FuncMethod;
 
@@ -46,10 +46,10 @@ import io.github.junxworks.junx.spel.function.anno.FuncMethod;
  * @see FunctionLoadEvent
  */
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class FunctionLoadListener implements ApplicationListener<ApplicationContextEvent> {
+public class FunctionLoadListener implements ApplicationListener<ContextRefreshedEvent> {
 	private Logger log = LoggerFactory.getLogger(FunctionLoadListener.class);
 	@Override
-	public void onApplicationEvent(ApplicationContextEvent event) {
+	public void onApplicationEvent(ContextRefreshedEvent event) {
 		log.info("Loading functions in classpath.");
 		Map<String, MethodDescriptor> methods = Maps.newHashMap();
 		Clock clock = ClockUtils.createClock();
