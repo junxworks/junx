@@ -5,15 +5,15 @@
     <artifactId>junx</artifactId>
     <version>1.0.1</version>
   </parent>
-  <artifactId>junx-event</artifactId>
-  <dependencies>
+  <artifactId>junx-spel</artifactId>
+   <dependencies>
   	<dependency>
   		<groupId>io.github.junxworks</groupId>
   		<artifactId>junx-core</artifactId>
   	</dependency>
   	<dependency>
-	    <groupId>com.lmax</groupId>
-	    <artifactId>disruptor</artifactId>
-	</dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-context</artifactId>
+  	</dependency>
   </dependencies>
 </project>

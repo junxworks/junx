@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.junxworks</groupId>
   <artifactId>junx</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>pom</packaging>
   <name>junx</name>
   <description>开源junx工具包</description>
@@ -38,7 +38,7 @@
 		<ehcache.version>3.3.1</ehcache.version>
 		<aerospike.version>4.1.0</aerospike.version>
 		<disruptor.version>3.3.6</disruptor.version>
-		<spring-beans.version>4.3.13.RELEASE</spring-beans.version>
+		<spring.version>4.3.13.RELEASE</spring.version>
 		<guava.version>25.1-jre</guava.version>
 		<kryo.version>4.0.0</kryo.version>
 		<commons-lang3.version>3.7</commons-lang3.version>
@@ -97,8 +97,18 @@
 			<dependency>
 			    <groupId>org.springframework</groupId>
 			    <artifactId>spring-beans</artifactId>
-			    <version>${spring-beans.version}</version>
+			    <version>${spring.version}</version>
 		     </dependency>
+		     <dependency>
+		  		<groupId>org.springframework</groupId>
+		  		<artifactId>spring-expression</artifactId>
+			    <version>${spring.version}</version>
+		  	</dependency>
+		  	<dependency>
+		  		<groupId>org.springframework</groupId>
+		  		<artifactId>spring-context</artifactId>
+			    <version>${spring.version}</version>
+		  	</dependency>
 			<dependency>
 			    <groupId>redis.clients</groupId>
 			    <artifactId>jedis</artifactId>
@@ -264,5 +274,7 @@
   	<module>junx-cache</module>
   	<module>junx-event</module>
   	<module>junx-netty</module>
+  	<module>junx-stat</module>
+  	<module>junx-spel</module>
   </modules>
 </project>
