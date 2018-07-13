@@ -5,7 +5,7 @@
  * @Package io.github.junxworks.junx.test.netty.client   
  * @Description: (用一句话描述该文件做什么)   
  * @author: Michael
- * @date:   2018-7-13 14:53:05   
+ * @date:   2018-7-13 15:20:15   
  * @version V1.0 
  * @Copyright: 2018 JunxWorks. All rights reserved. 
  * 

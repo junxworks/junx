@@ -1,14 +1,14 @@
 /*
  ***************************************************************************************
- * All rights Reserved, Designed By www.zzcx.com.cn
- * @Title:  StatEngineTopics.java   
- * @Package cn.com.zzcx.rtrc.core.eval.stat
+ * 
+ * @Title:  StatFunctionTest.java   
+ * @Package io.github.junxworks.junx.test.stat   
  * @Description: (用一句话描述该文件做什么)   
- * @author: songpeng
- * @date:   2017-6-1 16:34:11   
+ * @author: Michael
+ * @date:   2018-7-13 15:20:15   
  * @version V1.0 
- * @Copyright: 2017 智卓创新(北京)信息产业股份有限公司. All rights reserved.
- * 注意：本内容仅限于公司内部使用，禁止外泄以及用于其他的商业目
+ * @Copyright: 2018 JunxWorks. All rights reserved. 
+ * 
  *  ---------------------------------------------------------------------------------- 
  * 文件修改记录
  *     文件版本：         修改人：             修改原因：
