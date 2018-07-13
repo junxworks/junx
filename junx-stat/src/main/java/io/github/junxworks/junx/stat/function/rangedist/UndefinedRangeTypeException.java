@@ -20,11 +20,10 @@ import io.github.junxworks.junx.core.exception.BaseRuntimeException;
 
 /**
  * 未定义的区间类型，目前支持week、hour、number类型
- * 可参考{@link cn.com.zzcx.rtrc.core.constant.StatConstant.RANGE_DIST_PARAM_TYPE}
  *
  * @author: Michael
  * @date:   2017-5-7 17:32:52
- * @since:  v4.3
+ * @since:  v1.0
  */
 public class UndefinedRangeTypeException extends BaseRuntimeException {
 
