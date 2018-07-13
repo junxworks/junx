@@ -39,7 +39,7 @@ import io.github.junxworks.junx.spel.function.FunctionRepository;
  * @date:   2018-5-15 14:19:29
  * @since:  v5.0
  */
-public class Compiler {
+public class JCompiler {
 	private static SpelExpressionParser parser = new SpelExpressionParser(new SpelParserConfiguration(SpelCompilerMode.IMMEDIATE, Thread.currentThread().getContextClassLoader()));
 
 	public static Expression parse(String expressionString, ParserContext context) throws Exception {
@@ -94,7 +94,7 @@ public class Compiler {
 	public static CheckResult check(Expression expression) throws Exception {
 		CheckResult res = new CheckResult();
 		try {
-			Compiler.analyzeExpression(expression, new NodeVisitor() {
+			JCompiler.analyzeExpression(expression, new NodeVisitor() {
 
 				@Override
 				public void visit(SpelNode node) {
