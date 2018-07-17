@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+
 import io.github.junxworks.junx.cache.KV;
 import io.github.junxworks.junx.core.exception.NullParameterException;
 import redis.clients.jedis.Jedis;
@@ -88,7 +90,10 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				newMap.put(kv.getKey(), p.get(getComposedKey(kv).getBytes()));
+				String key = kv.getKey();
+				if (!newMap.containsKey(key)) {
+					newMap.put(key, p.get(getComposedKey(kv).getBytes()));
+				}
 			}
 			p.sync();
 			for (int i = 0; i < kvs.size(); i++) {
@@ -127,19 +132,24 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			throw new NullParameterException("When the values is added to redis, parameters cannot be null");
 		if (!kvs.isEmpty()) {
 			Pipeline p = jedis.pipelined();
+			Set<String> filter = Sets.newHashSet();
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				byte[] value = kv.getValue();
-				if (value == null) {
-					log.warn("Value of KV[group is \"{}\",key is \"{}\"] which will be cached can not bt null.This KV object will be ignored.", kv.getGroup(), kv.getKey());
-					continue;
-				}
-				byte[] key = getComposedKey(kv).getBytes();
-				p.set(key, value);
-				long expireTime = getTTLSeconds(kv);
-				if (expireTime > 0) {
-					p.expire(key, (int) expireTime);
+				String _key = kv.getKey();
+				if (!filter.contains(_key)) {
+					byte[] value = kv.getValue();
+					if (value == null) {
+						log.warn("Value of KV[group is \"{}\",key is \"{}\"] which will be cached can not bt null.This KV object will be ignored.", kv.getGroup(), kv.getKey());
+						continue;
+					}
+					byte[] key = getComposedKey(kv).getBytes();
+					p.set(key, value);
+					long expireTime = getTTLSeconds(kv);
+					if (expireTime > 0) {
+						p.expire(key, (int) expireTime);
+					}
+					filter.add(_key);
 				}
 			}
 			p.sync();

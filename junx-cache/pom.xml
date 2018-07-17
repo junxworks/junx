@@ -6,10 +6,12 @@
     <version>1.0.1</version>
   </parent>
   <artifactId>junx-cache</artifactId>
+    <version>1.0.2</version>
   <dependencies>
   	<dependency>
   		<groupId>io.github.junxworks</groupId>
   		<artifactId>junx-core</artifactId>
+   		<version>1.0.1</version>
   	</dependency>
   	<dependency>
 	    <groupId>redis.clients</groupId>
