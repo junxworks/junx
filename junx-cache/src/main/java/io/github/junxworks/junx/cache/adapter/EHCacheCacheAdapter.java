@@ -41,9 +41,6 @@ import io.github.junxworks.junx.core.exception.NullParameterException;
  */
 public class EHCacheCacheAdapter extends AbstractCacheAdapter {
 
-	/** 分隔符，用于组装key和group . */
-	private static final String SEPARATOR = "$";
-
 	/** EHCache的Cache对象. */
 	private Cache<String, byte[]> ehcache;
 
@@ -53,16 +50,6 @@ public class EHCacheCacheAdapter extends AbstractCacheAdapter {
 
 	public void setEhcache(Cache<String, byte[]> ehcache) {
 		this.ehcache = ehcache;
-	}
-
-	/**
-	 * 获得组合过后的key值
-	 *
-	 * @param kv the kv
-	 * @return composed key 属性
-	 */
-	private String getComposedKey(KV kv) {
-		return new StringBuilder(kv.getGroup()).append(SEPARATOR).append(kv.getKey()).toString();
 	}
 
 	/**
@@ -168,20 +155,24 @@ public class EHCacheCacheAdapter extends AbstractCacheAdapter {
 		return resMap;
 	}
 
-	public List<KV> getAll(KV kv){
-		
+	@Override
+	public List<KV> getGroupValues(String groupName) {
 		Iterator<Entry<String, byte[]>> entrys = ehcache.iterator();
 		Entry<String, byte[]> entry;
 		List<KV> kvs = new ArrayList<KV>();
+		String prefix = getKeyPrefix(groupName);
 		KV v;
-		while(entrys.hasNext()){
+		while (entrys.hasNext()) {
 			entry = entrys.next();
-			v = new KV(kv.getGroup(),"all",entry.getValue());
-			kvs.add(v);
-			
+			String key = entry.getKey();
+			if (key.startsWith(prefix)) {
+				v = new KV(groupName, key.substring(prefix.length()), entry.getValue());
+				kvs.add(v);
+			}
 		}
 		return kvs;
 	}
+
 	/**
 	 * @see java.io.Closeable#close()
 	 */

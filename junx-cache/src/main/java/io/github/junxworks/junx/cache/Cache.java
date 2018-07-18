@@ -51,13 +51,15 @@ public interface Cache extends Closeable {
 	public List<KV> get(List<KV> kvs) throws Exception;
 	
 	/**
-	 * 获取key对应的值，以KV类型返回,获取set下所有
-	 *
+	 * 获取group下所有key对应的值，以KV类型返回
+	 * 注意此方法以返回value为主，key可能会不准确，因为如果是Aerospike数据库的话，key是没有存储的。
+	 * redis和ehcache目前可以取到key值
+	 * 
 	 * @param kv
 	 *            KV对象
 	 * @return the string
 	 */
-	public List<KV> getAll(KV kv) throws Exception;
+	public List<KV> getGroupValues(String groupName) throws Exception;
 
 	/**
 	 * 设置key对应的值，value会被序列化并压缩，因此建议缓存服务那边不要进行再次压缩存储

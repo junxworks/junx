@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 
 import io.github.junxworks.junx.cache.KV;
 import io.github.junxworks.junx.core.exception.NullParameterException;
+import io.github.junxworks.junx.core.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
@@ -41,9 +42,6 @@ import redis.clients.jedis.Response;
  */
 public class RedisCacheAdaper extends AbstractCacheAdapter {
 
-	/** 常量 SEPARATOR. */
-	private static final String SEPARATOR = "_";
-
 	/** redis 客户端 */
 	private Jedis jedis;
 
@@ -53,17 +51,6 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 
 	public void setJedis(Jedis jedis) {
 		this.jedis = jedis;
-	}
-
-	/**
-	 * 获得组合过后的key值
-	 *
-	 * @param kv
-	 *            the kv
-	 * @return composed key 属性
-	 */
-	private String getComposedKey(KV kv) {
-		return new StringBuilder(kv.getGroup()).append(SEPARATOR).append(kv.getKey()).toString();
 	}
 
 	/**
@@ -210,10 +197,10 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public List<KV> getAll(KV kv) {
-
+	public List<KV> getGroupValues(String groupName) {
+		String prefix = getKeyPrefix(groupName);
 		List<KV> kvs = new ArrayList<KV>();
-		Set<String> set = jedis.keys(kv.getGroup() + SEPARATOR + "*");
+		Set<String> set = jedis.keys(StringUtils.notNull(prefix) ? prefix + "*" : "*");
 		if (set == null || set.size() == 0)
 			return kvs;
 		String[] keys = (String[]) set.toArray();
@@ -223,11 +210,10 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			newMap.put(keys[i], p.get(keys[i].getBytes()));
 		}
 		p.sync();
-		KV v = null;
-
+		KV kv = null;
 		for (int i = 0; i < keys.length; i++) {
-			v = new KV(kv.getGroup(), keys[i], newMap.get(keys[i]).get());
-			kvs.add(v);
+			kv = new KV(groupName, keys[i].substring(prefix.length()), newMap.get(keys[i]).get());
+			kvs.add(kv);
 		}
 		return kvs;
 	}

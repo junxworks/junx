@@ -126,7 +126,7 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 		long expireTime = getTTLSeconds(kv);
 		if (expireTime > 0) {
 			policy = new WritePolicy();
-			policy.expiration = (int)expireTime;
+			policy.expiration = (int) expireTime;
 		}
 		return policy;
 	}
@@ -216,7 +216,7 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public List<KV> getAll(KV kv) {
+	public List<KV> getGroupValues(String group) {
 		final List<KV> kvs = new ArrayList<KV>();
 
 		ScanCallback cllBack = new ScanCallback() {
@@ -224,13 +224,13 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 			@Override
 			public void scanCallback(Key key, Record record) throws AerospikeException {
 
-				KV kv = new KV("all");
+				KV kv = new KV(group, "UnknownKey");
 				kv.setValue((byte[]) record.getValue(BIN_NAME));
 				kvs.add(kv);
 			}
 
 		};
-		client.scanAll(null, namespace, kv.getGroup(), cllBack, BIN_NAME);
+		client.scanAll(null, namespace, group, cllBack, BIN_NAME);
 		return kvs;
 	}
 

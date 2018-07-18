@@ -5,7 +5,7 @@
  * @Package io.github.junxworks.junx.cache.adapter   
  * @Description: (用一句话描述该文件做什么)   
  * @author: Michael
- * @date:   2018-7-11 15:38:51   
+ * @date:   2018-7-18 16:48:04   
  * @version V1.0 
  * @Copyright: 2018 JunxWorks. All rights reserved. 
  * 
@@ -16,14 +16,12 @@
  */
 package io.github.junxworks.junx.cache.adapter;
 
-import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.junxworks.junx.cache.Cache;
 import io.github.junxworks.junx.cache.KV;
+import io.github.junxworks.junx.core.util.StringUtils;
 
 /**
  * 缓存适配器的基类，除了close方法，其他所有方法均有实现，目前仅仅是抛出UnsupportedOperationException异常.
@@ -36,75 +34,39 @@ import io.github.junxworks.junx.cache.KV;
  */
 public abstract class AbstractCacheAdapter implements Cache {
 
+	/** 分隔符，用于组装key和group . */
+	public static final String SEPARATOR = "$";
+
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
-	@Override
-	public List<KV> getAll(KV kv) throws Exception {
-		throw new UnsupportedOperationException();
+	/**
+	 * 获得组合过后的key值，如果子类cache本身不支持group的话，可以通过这种方式让key分组
+	 * 子类可以使用，也可以不使用
+	 *
+	 * @param kv
+	 *            the kv
+	 * @return composed key 属性
+	 */
+	/**
+	 * 获得组合过后的key值
+	 *
+	 * @param kv the kv
+	 * @return composed key 属性
+	 */
+	protected String getComposedKey(KV kv) {
+		return getKeyPrefix(kv.getGroup()) + kv.getKey();
 	}
 
 	/**
-	 * @see io.github.junxworks.junx.cache.Cache#get(io.github.junxworks.junx.cache.KV)
+	 * 根据group获取key的前缀
+	 *
+	 * @return key prefix 属性
 	 */
-	@Override
-	public KV get(KV kv) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#get(java.util.List)
-	 */
-	@Override
-	public List<KV> get(List<KV> kvs) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#set(io.github.junxworks.junx.cache.KV)
-	 */
-	@Override
-	public void set(KV kv) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#set(java.util.List)
-	 */
-	@Override
-	public void set(List<KV> kvs) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#delete(io.github.junxworks.junx.cache.KV)
-	 */
-	@Override
-	public void delete(KV kv) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#delete(java.util.List)
-	 */
-	@Override
-	public void delete(List<KV> kvs) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#exists(io.github.junxworks.junx.cache.KV)
-	 */
-	@Override
-	public boolean exists(KV kv) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * @see io.github.junxworks.junx.cache.Cache#exists(java.util.List)
-	 */
-	@Override
-	public Map<KV, Boolean> exists(List<KV> kvs) {
-		throw new UnsupportedOperationException();
+	protected String getKeyPrefix(String groupName) {
+		if (StringUtils.notNull(groupName)) {
+			return groupName + SEPARATOR;
+		}
+		return "";
 	}
 
 	/**
@@ -119,7 +81,7 @@ public abstract class AbstractCacheAdapter implements Cache {
 			if (kv.isUseTTL()) {
 				return expireTime;
 			} else {
-				long time = (expireTime - System.currentTimeMillis())/1000;
+				long time = (expireTime - System.currentTimeMillis()) / 1000;
 				if (time < 0) {
 					return 1;//1秒
 				} else {

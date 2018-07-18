@@ -32,9 +32,6 @@ import io.github.junxworks.junx.core.util.StringUtils;
  */
 public class KV {
 
-	/**系统默认分组. */
-	private static final String DEFAULT_GROUP = "default_";
-
 	/** 值分组，可以用于向redis的key添加前缀，或者是向AS里面添加set. */
 	private String group;
 
@@ -100,11 +97,7 @@ public class KV {
 	}
 
 	public void setGroup(String group) {
-		if (StringUtils.notNull(group)) {
-			this.group = group;
-		} else {
-			this.group = DEFAULT_GROUP;
-		}
+		this.group = group; //group为空的情况，不再默认使用分组
 	}
 
 	public String getKey() {
