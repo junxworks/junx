@@ -203,7 +203,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 		Set<String> set = jedis.keys(StringUtils.notNull(prefix) ? prefix + "*" : "*");
 		if (set == null || set.size() == 0)
 			return kvs;
-		String[] keys = (String[]) set.toArray();
+		String[] keys = set.toArray(new String[0]);
 		Pipeline p = jedis.pipelined();
 		Map<String, Response<byte[]>> newMap = new HashMap<String, Response<byte[]>>();
 		for (int i = 0; i < keys.length; i++) {
