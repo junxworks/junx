@@ -60,7 +60,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 	public KV get(KV kv) {
 		if (kv == null)
 			throw new NullParameterException("When the value is read in redis, the parameter cannot be null");
-		kv.setValue(jedis.get(getComposedKey(kv).getBytes()));
+		kv.setValue(jedis.get(getComposedKeyBytes(kv)));
 		return kv;
 	}
 
@@ -79,7 +79,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 				kv = kvs.get(i);
 				String key = kv.getKey();
 				if (!newMap.containsKey(key)) {
-					newMap.put(key, p.get(getComposedKey(kv).getBytes()));
+					newMap.put(key, p.get(getComposedKeyBytes(kv)));
 				}
 			}
 			p.sync();
@@ -102,7 +102,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			log.warn("Value of KV[group is \"{}\",key is \"{}\"] which will be cached can not bt null.This KV object will be ignored.", kv.getGroup(), kv.getKey());
 			return;
 		}
-		byte[] key = getComposedKey(kv).getBytes();
+		byte[] key = getComposedKeyBytes(kv);
 		jedis.set(key, value);
 		long expireTime = getTTLSeconds(kv);
 		if (expireTime > 0) {
@@ -130,7 +130,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 						log.warn("Value of KV[group is \"{}\",key is \"{}\"] which will be cached can not bt null.This KV object will be ignored.", kv.getGroup(), kv.getKey());
 						continue;
 					}
-					byte[] key = getComposedKey(kv).getBytes();
+					byte[] key = getComposedKeyBytes(kv);
 					p.set(key, value);
 					long expireTime = getTTLSeconds(kv);
 					if (expireTime > 0) {
@@ -150,7 +150,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 	public void delete(KV kv) {
 		if (kv == null)
 			throw new NullParameterException("When the redis delete value, parameter cannot be null");
-		jedis.del(getComposedKey(kv).getBytes());
+		jedis.del(getComposedKeyBytes(kv));
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 		if (!kvs.isEmpty()) {
 			Pipeline p = jedis.pipelined();
 			for (int i = 0, len = kvs.size(); i < len; i++) {
-				p.del(getComposedKey(kvs.get(i)).getBytes());
+				p.del(getComposedKeyBytes(kvs.get(i)));
 			}
 			p.sync();
 		}
@@ -171,7 +171,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 
 	@Override
 	public boolean exists(KV kv) {
-		return jedis.exists(getComposedKey(kv));
+		return jedis.exists(getComposedKeyBytes(kv));
 	}
 
 	@Override
@@ -185,7 +185,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				newMap.put(kv.getKey(), p.exists(getComposedKey(kv)));
+				newMap.put(kv.getKey(), p.exists(getComposedKeyBytes(kv)));
 			}
 			p.sync();
 			for (int i = 0; i < kvs.size(); i++) {
@@ -209,7 +209,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 		Pipeline p = jedis.pipelined();
 		Map<String, Response<byte[]>> newMap = new HashMap<String, Response<byte[]>>();
 		for (int i = 0; i < keys.length; i++) {
-			newMap.put(keys[i], p.get(keys[i].getBytes()));
+			newMap.put(keys[i], p.get(getComposedKeyBytes(keys[i])));
 		}
 		p.sync();
 		KV _kv = null;
