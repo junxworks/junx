@@ -16,13 +16,12 @@
  */
 package io.github.junxworks.junx.cache.adapter;
 
-import java.nio.charset.Charset;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.junxworks.junx.cache.Cache;
 import io.github.junxworks.junx.cache.KV;
+import io.github.junxworks.junx.core.exception.NullParameterException;
 import io.github.junxworks.junx.core.util.StringUtils;
 
 /**
@@ -38,8 +37,6 @@ public abstract class AbstractCacheAdapter implements Cache {
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
-	public static final String CHARSET = "UTF-8";
-
 	/**
 	 * 获得组合过后的key值，如果子类cache本身不支持group的话，可以通过这种方式让key分组
 	 * 子类可以使用，也可以不使用
@@ -49,7 +46,11 @@ public abstract class AbstractCacheAdapter implements Cache {
 	 * @return 组合过后的Key属性
 	 */
 	protected String getComposedKey(KV kv) {
-		return getKeyPrefix(kv) + kv.getKey();
+		String key = kv.getKey();
+		if (StringUtils.isNull(key)) {
+			throw new NullParameterException("Key can't be null for KV when do get/set/delete operation.");
+		}
+		return getKeyPrefix(kv) + key;
 	}
 
 	/**
@@ -57,19 +58,10 @@ public abstract class AbstractCacheAdapter implements Cache {
 	 *
 	 * @param kv the kv
 	 * @return composed key 属性
+	 * @throws Exception 
 	 */
 	protected byte[] getComposedKeyBytes(KV kv) {
-		return getComposedKey(kv).getBytes(Charset.forName(CHARSET));
-	}
-
-	/**
-	 * 获得组合过后的key byte数组
-	 *
-	 * @param key the key
-	 * @return composed key 属性
-	 */
-	protected byte[] getComposedKeyBytes(String key) {
-		return key.getBytes(Charset.forName(CHARSET));
+		return kv.getKeySerializer().serialize(getComposedKey(kv));
 	}
 
 	/**

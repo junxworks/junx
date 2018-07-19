@@ -55,17 +55,10 @@ public interface Cache extends Closeable {
 	 * 注意此方法以返回value为主，key可能会不准确，因为如果是Aerospike数据库的话，key是没有存储的。
 	 * redis和ehcache目前可以取到key值
 	 * 
-	 * @param groupName 分组名称
-	 * @param separator 分组与key的分隔符
+	 * @param KV kv对象中的group、separator、keyserializer会影响输出结果 
 	 * @return List<KV> 根据kv对象中group和分隔符查询出来的kv值
 	 */
-	public List<KV> getGroupValues(String groupName, String separator) throws Exception;
-
-	/**
-	 * separator直接使用KV的DEFAULT_SEPARATOR
-	 * @see io.github.junxworks.junx.cache.Cache.getGroupValues(String, String)
-	 */
-	public List<KV> getGroupValues(String groupName) throws Exception;
+	public List<KV> getGroupValues(KV kv) throws Exception;
 
 	/**
 	 * 设置key对应的值，value会被序列化并压缩，因此建议缓存服务那边不要进行再次压缩存储

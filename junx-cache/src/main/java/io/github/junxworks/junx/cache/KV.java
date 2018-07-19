@@ -18,9 +18,8 @@ package io.github.junxworks.junx.cache;
 
 import com.google.common.base.Objects;
 
-import io.github.junxworks.junx.core.exception.UnsupportedParameterException;
+import io.github.junxworks.junx.cache.keyserializers.StringSerializer;
 import io.github.junxworks.junx.core.exception.UnsupportedTypeException;
-import io.github.junxworks.junx.core.util.StringUtils;
 
 /**
  * 缓存存储的基础对象.
@@ -31,6 +30,8 @@ import io.github.junxworks.junx.core.util.StringUtils;
  * @since: v1.0
  */
 public class KV {
+
+	private static final KeySerializer stringSerializer = new StringSerializer();
 
 	public static final String DEFAULT_SEPARATOR = "$";
 
@@ -43,6 +44,8 @@ public class KV {
 	/** 主键. */
 	private String key;
 
+	private KeySerializer keySerializer = stringSerializer;
+
 	/** 值. */
 	private byte[] value;
 
@@ -54,6 +57,11 @@ public class KV {
 	 *  如果useTTL是false，那么这个值代表KV对象过期的时间戳
 	 */
 	private long expireTimestamp;
+
+	public KV() {
+		setGroup(null);
+		setKey(null);
+	}
 
 	/**
 	 * 构造一个新的 kv 对象.
@@ -89,6 +97,14 @@ public class KV {
 		setKey(key);
 	}
 
+	public KeySerializer getKeySerializer() {
+		return keySerializer;
+	}
+
+	public void setKeySerializer(KeySerializer keySerializer) {
+		this.keySerializer = keySerializer;
+	}
+
 	public String getSeparator() {
 		return separator;
 	}
@@ -110,7 +126,7 @@ public class KV {
 	}
 
 	public void setGroup(String group) {
-		this.group = group; //group为空的情况，不再默认使用分组
+		this.group = group;
 	}
 
 	public String getKey() {
@@ -118,9 +134,6 @@ public class KV {
 	}
 
 	private void setKey(String key) {
-		if (StringUtils.isNull(key)) {
-			throw new UnsupportedParameterException("Key can't be null.");
-		}
 		this.key = key;
 	}
 

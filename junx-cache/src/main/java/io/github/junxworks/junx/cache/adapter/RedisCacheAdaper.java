@@ -197,9 +197,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public List<KV> getGroupValues(String group, String separator) {
-		KV kv = new KV(group, "ignore");
-		kv.setSeparator(separator);
+	public List<KV> getGroupValues(KV kv) {
 		String prefix = getKeyPrefix(kv);
 		List<KV> kvs = new ArrayList<KV>();
 		Set<String> set = jedis.keys(StringUtils.notNull(prefix) ? prefix + "*" : "*");
@@ -209,20 +207,15 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 		Pipeline p = jedis.pipelined();
 		Map<String, Response<byte[]>> newMap = new HashMap<String, Response<byte[]>>();
 		for (int i = 0; i < keys.length; i++) {
-			newMap.put(keys[i], p.get(getComposedKeyBytes(keys[i])));
+			newMap.put(keys[i], p.get(kv.getKeySerializer().serialize(keys[i])));
 		}
 		p.sync();
 		KV _kv = null;
 		for (int i = 0; i < keys.length; i++) {
-			_kv = new KV(group, keys[i].substring(prefix.length()), newMap.get(keys[i]).get());
+			_kv = new KV(kv.getGroup(), keys[i].substring(prefix.length()), newMap.get(keys[i]).get());
 			kvs.add(_kv);
 		}
 		return kvs;
-	}
-
-	@Override
-	public List<KV> getGroupValues(String group) {
-		return getGroupValues(group, KV.DEFAULT_SEPARATOR);
 	}
 
 	/*

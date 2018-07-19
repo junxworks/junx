@@ -216,26 +216,21 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public List<KV> getGroupValues(String group) {
+	public List<KV> getGroupValues(KV kv) {
 		final List<KV> kvs = new ArrayList<KV>();
 
 		ScanCallback cllBack = new ScanCallback() {
 
 			@Override
 			public void scanCallback(Key key, Record record) throws AerospikeException {
-				KV _kv = new KV(group, "UnknownKey");
+				KV _kv = new KV(kv.getGroup(), "UnknownKey");
 				_kv.setValue((byte[]) record.getValue(BIN_NAME));
 				kvs.add(_kv);
 			}
 
 		};
-		client.scanAll(null, namespace, group, cllBack, BIN_NAME);
+		client.scanAll(null, namespace, kv.getGroup(), cllBack, BIN_NAME);
 		return kvs;
-	}
-
-	@Override
-	public List<KV> getGroupValues(String groupName, String separator) throws Exception {
-		return getGroupValues(groupName);
 	}
 
 	/**

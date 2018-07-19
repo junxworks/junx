@@ -117,7 +117,9 @@ public class CacheTest {
 			initKVs(kvs2);
 			cache.set(kvs);
 			cache.set(kvs2);
-			printKVs(cache.getGroupValues(group));
+			KV kv = new KV();
+			kv.setGroup(group);
+			printKVs(cache.getGroupValues(kv));
 			cache.delete(kvs);
 			cache.delete(kvs2);
 		}
@@ -142,8 +144,12 @@ public class CacheTest {
 		kv.setValue(UUID.randomUUID().toString().getBytes());
 		try (Cache cache = cacheProvider.getCache();) {
 			cache.set(kv);
-			printKVs(cache.getGroupValues(null));
-			printKVs(cache.getGroupValues("T", separator));
+			KV _kv = new KV();
+			printKVs(cache.getGroupValues(_kv));
+			_kv = new KV();
+			_kv.setGroup("T");
+			_kv.setSeparator(separator);
+			printKVs(cache.getGroupValues(_kv));
 			cache.delete(kv);
 		}
 	}
