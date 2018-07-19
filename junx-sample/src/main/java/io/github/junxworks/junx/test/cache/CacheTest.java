@@ -24,13 +24,13 @@ public class CacheTest {
 	@Qualifier("redisProvider")
 	private CacheProvider cacheProvider;
 
-//	@Autowired
-//	@Qualifier("ehcacheProvider")
-//	private CacheProvider cacheProvider;
+	//	@Autowired
+	//	@Qualifier("ehcacheProvider")
+	//	private CacheProvider cacheProvider;
 
-//	@Autowired
-//	@Qualifier("aerospikeProvider")
-//	private CacheProvider cacheProvider;
+	//	@Autowired
+	//	@Qualifier("aerospikeProvider")
+	//	private CacheProvider cacheProvider;
 
 	private static final String group = "test";
 
@@ -131,6 +131,20 @@ public class CacheTest {
 			cache.set(kvs);
 			printKVs(cache.getGroupValues(null));
 			cache.delete(kvs);
+		}
+	}
+
+	@Test
+	public void groupTestSeparator() throws IOException, Exception {
+		String separator = "#";
+		KV kv = new KV("T", "1");
+		kv.setSeparator(separator);
+		kv.setValue(UUID.randomUUID().toString().getBytes());
+		try (Cache cache = cacheProvider.getCache();) {
+			cache.set(kv);
+			printKVs(cache.getGroupValues(null));
+			printKVs(cache.getGroupValues("T", separator));
+			cache.delete(kv);
 		}
 	}
 

@@ -39,7 +39,7 @@
 	  	<dependency>
 			 <groupId>io.github.junxworks</groupId>
 			 <artifactId>junx-cache</artifactId>
-			 <version>1.0.3</version>
+			 <version>1.0.3.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.ehcache</groupId>
