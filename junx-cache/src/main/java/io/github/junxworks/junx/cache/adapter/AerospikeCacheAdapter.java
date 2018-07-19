@@ -223,15 +223,19 @@ public class AerospikeCacheAdapter extends AbstractCacheAdapter {
 
 			@Override
 			public void scanCallback(Key key, Record record) throws AerospikeException {
-
-				KV kv = new KV(group, "UnknownKey");
-				kv.setValue((byte[]) record.getValue(BIN_NAME));
-				kvs.add(kv);
+				KV _kv = new KV(group, "UnknownKey");
+				_kv.setValue((byte[]) record.getValue(BIN_NAME));
+				kvs.add(_kv);
 			}
 
 		};
 		client.scanAll(null, namespace, group, cllBack, BIN_NAME);
 		return kvs;
+	}
+
+	@Override
+	public List<KV> getGroupValues(String groupName, String separator) throws Exception {
+		return getGroupValues(groupName);
 	}
 
 	/**

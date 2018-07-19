@@ -156,21 +156,28 @@ public class EHCacheCacheAdapter extends AbstractCacheAdapter {
 	}
 
 	@Override
-	public List<KV> getGroupValues(String groupName) {
+	public List<KV> getGroupValues(String group, String separator) {
+		KV kv = new KV(group, "ignore");
+		kv.setSeparator(separator);
 		Iterator<Entry<String, byte[]>> entrys = ehcache.iterator();
 		Entry<String, byte[]> entry;
 		List<KV> kvs = new ArrayList<KV>();
-		String prefix = getKeyPrefix(groupName);
+		String prefix = getKeyPrefix(kv);
 		KV v;
 		while (entrys.hasNext()) {
 			entry = entrys.next();
 			String key = entry.getKey();
 			if (key.startsWith(prefix)) {
-				v = new KV(groupName, key.substring(prefix.length()), entry.getValue());
+				v = new KV(group, key.substring(prefix.length()), entry.getValue());
 				kvs.add(v);
 			}
 		}
 		return kvs;
+	}
+
+	@Override
+	public List<KV> getGroupValues(String group) throws Exception {
+		return getGroupValues(group, KV.DEFAULT_SEPARATOR);
 	}
 
 	/**

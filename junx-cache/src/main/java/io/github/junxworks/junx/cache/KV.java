@@ -32,8 +32,13 @@ import io.github.junxworks.junx.core.util.StringUtils;
  */
 public class KV {
 
+	public static final String DEFAULT_SEPARATOR = "$";
+
 	/** 值分组，可以用于向redis的key添加前缀，或者是向AS里面添加set. */
 	private String group;
+
+	/** 分隔符，用于组装key和group，例如redis，最后存入redis的key为group+separater+key，如果separater为空，则直接group+key . */
+	private String separator = DEFAULT_SEPARATOR;
 
 	/** 主键. */
 	private String key;
@@ -82,6 +87,14 @@ public class KV {
 	public KV(String group, String key) {
 		setGroup(group);
 		setKey(key);
+	}
+
+	public String getSeparator() {
+		return separator;
+	}
+
+	public void setSeparator(String separator) {
+		this.separator = separator;
 	}
 
 	public long getExpireTimestamp() {

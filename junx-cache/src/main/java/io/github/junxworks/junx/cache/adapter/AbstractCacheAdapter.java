@@ -16,6 +16,8 @@
  */
 package io.github.junxworks.junx.cache.adapter;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +36,6 @@ import io.github.junxworks.junx.core.util.StringUtils;
  */
 public abstract class AbstractCacheAdapter implements Cache {
 
-	/** 分隔符，用于组装key和group . */
-	public static final String SEPARATOR = "$";
-
 	protected Logger log = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -54,7 +53,7 @@ public abstract class AbstractCacheAdapter implements Cache {
 	 * @return composed key 属性
 	 */
 	protected String getComposedKey(KV kv) {
-		return getKeyPrefix(kv.getGroup()) + kv.getKey();
+		return getKeyPrefix(kv) + kv.getKey();
 	}
 
 	/**
@@ -62,9 +61,11 @@ public abstract class AbstractCacheAdapter implements Cache {
 	 *
 	 * @return key prefix 属性
 	 */
-	protected String getKeyPrefix(String groupName) {
+	protected String getKeyPrefix(KV kv) {
+		String groupName = kv.getGroup();
 		if (StringUtils.notNull(groupName)) {
-			return groupName + SEPARATOR;
+			String separator = kv.getSeparator();
+			return groupName + (StringUtils.notNull(separator) ? separator : "");
 		}
 		return "";
 	}
@@ -91,4 +92,5 @@ public abstract class AbstractCacheAdapter implements Cache {
 		}
 		return -1;
 	}
+
 }

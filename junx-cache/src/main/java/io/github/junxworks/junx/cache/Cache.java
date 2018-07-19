@@ -49,15 +49,21 @@ public interface Cache extends Closeable {
 	 * @return the string
 	 */
 	public List<KV> get(List<KV> kvs) throws Exception;
-	
+
 	/**
 	 * 获取group下所有key对应的值，以KV类型返回
 	 * 注意此方法以返回value为主，key可能会不准确，因为如果是Aerospike数据库的话，key是没有存储的。
 	 * redis和ehcache目前可以取到key值
 	 * 
-	 * @param kv
-	 *            KV对象
-	 * @return the string
+	 * @param groupName 分组名称
+	 * @param separator 分组与key的分隔符
+	 * @return List<KV> 根据kv对象中group和分隔符查询出来的kv值
+	 */
+	public List<KV> getGroupValues(String groupName, String separator) throws Exception;
+
+	/**
+	 * separator直接使用KV的DEFAULT_SEPARATOR
+	 * @see io.github.junxworks.junx.cache.Cache.getGroupValues(String, String)
 	 */
 	public List<KV> getGroupValues(String groupName) throws Exception;
 
@@ -108,6 +114,5 @@ public interface Cache extends Closeable {
 	 * @return the map
 	 */
 	public Map<KV, Boolean> exists(List<KV> kvs) throws Exception;
-	
 
 }
