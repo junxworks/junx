@@ -77,14 +77,14 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				String key = kv.getKey();
+				String key = getComposedKey(kv);
 				if (!newMap.containsKey(key)) {
 					newMap.put(key, p.get(getComposedKeyBytes(kv)));
 				}
 			}
 			p.sync();
 			for (int i = 0; i < kvs.size(); i++) {
-				kvs.get(i).setValue(newMap.get(kvs.get(i).getKey()).get());
+				kvs.get(i).setValue(newMap.get(getComposedKey(kvs.get(i))).get());
 			}
 		}
 		return kvs;
@@ -123,7 +123,7 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				String _key = kv.getKey();
+				String _key = getComposedKey(kv);
 				if (!filter.contains(_key)) {
 					byte[] value = kv.getValue();
 					if (value == null) {
@@ -185,12 +185,12 @@ public class RedisCacheAdaper extends AbstractCacheAdapter {
 			KV kv = null;
 			for (int i = 0, len = kvs.size(); i < len; i++) {
 				kv = kvs.get(i);
-				newMap.put(kv.getKey(), p.exists(getComposedKeyBytes(kv)));
+				newMap.put(getComposedKey(kv), p.exists(getComposedKeyBytes(kv)));
 			}
 			p.sync();
 			for (int i = 0; i < kvs.size(); i++) {
 				kv = kvs.get(i);
-				resMap.put(kv, newMap.get(kv.getKey()).get());
+				resMap.put(kv, newMap.get(getComposedKey(kv)).get());
 			}
 		}
 		return resMap;

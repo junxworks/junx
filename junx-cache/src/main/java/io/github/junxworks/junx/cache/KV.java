@@ -195,7 +195,7 @@ public class KV {
 	public boolean equals(Object obj) {
 		if (obj != null && (obj instanceof KV)) {
 			KV kv = (KV) obj;
-			return _equals(group, kv.group) && _equals(key, kv.key);
+			return _equals(group, kv.group) && _equals(key, kv.key) && _equals(separator, kv.separator);
 		}
 		return false;
 	}
@@ -229,6 +229,6 @@ public class KV {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(group, key);
+		return Objects.hashCode(group, key, separator);
 	}
 }
