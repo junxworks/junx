@@ -19,7 +19,6 @@ package io.github.junxworks.junx.test.stat;
 import io.github.junxworks.junx.stat.Stat;
 import io.github.junxworks.junx.stat.StatDefinition;
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
-import io.github.junxworks.junx.stat.datawindow.DataWindowConstants;
 import io.github.junxworks.junx.stat.datawindow.timewindow.TimeUnit;
 
 public class StatTest {
@@ -48,34 +47,11 @@ public class StatTest {
 	 * @return the statistics
 	 */
 	protected StatDefinition createStatModel(String func, int winNum) {
-		StatDefinition statModel = new StatDefinition() {
-
-			@Override
-			public int getDataWindowType() {
-				return DataWindowConstants.WIN_TYPE_TIME;
-			}
-
-			@Override
-			public int getDataWindowSize() {
-				return winNum;
-			}
-
-			@Override
-			public String getStatFunction() {
-				return func;
-			}
-
-			@Override
-			public String getDataWindowTimeUnit() {
-				return TimeUnit.minute.toString();
-			}
-
-			@Override
-			public String getStatFunctionAddition() {
-				return "num:$~100|100~200|200~300|300~$";
-			}
-
-		};
+		StatDefinition statModel = new StatDefinition();
+		statModel.setDataWindowSize(winNum);
+		statModel.setStatFunction(func);
+		statModel.setDataWindowTimeUnit(TimeUnit.minute.toString());
+		statModel.setStatFunctionAddition("num:$~100|100~200|200~300|300~$");
 		return statModel;
 	}
 

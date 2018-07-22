@@ -22,6 +22,7 @@ import io.github.junxworks.junx.stat.Stat;
 import io.github.junxworks.junx.stat.StatContext;
 import io.github.junxworks.junx.stat.StatDefinition;
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
+import io.github.junxworks.junx.stat.datawindow.timewindow.TimeUnit;
 import io.github.junxworks.junx.stat.function.FuncDef;
 
 /**
@@ -245,4 +246,26 @@ public class StatFunctionTest extends StatTest {
 		System.out.println(so.getValue(ctx));
 	}
 
+	/**
+	 * 无尽窗口
+	 * @throws Exception 
+	 */
+	@Test
+	public void eternalTest() throws Exception {
+		StatDefinition model = createStatModel(FuncDef.SNAPSHOT);
+		model.setDataWindowTimeUnit(TimeUnit.eternal.toString());
+		Stat so = Stat.create(model);
+		long timestamp = System.currentTimeMillis();
+		so.compose(new DataBundle(timestamp, 50f));
+		so.compose(new DataBundle(timestamp + 70000, 200));
+		so.compose(new DataBundle(timestamp + 70001, 250));
+		so.compose(new DataBundle(timestamp + 200000, 350f));
+		so.compose(new DataBundle(timestamp + 300000, 10));
+		so.compose(new DataBundle(timestamp + 400000, 300));
+		StatContext ctx = new StatContext();
+		ctx.setTimestamp(timestamp + 500000);
+		ctx.setValue(1);
+		System.out.println(so.getValue(ctx));
+	}
+	
 }

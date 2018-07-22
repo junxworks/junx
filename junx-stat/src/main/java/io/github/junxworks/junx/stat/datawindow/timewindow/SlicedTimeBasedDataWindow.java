@@ -268,6 +268,13 @@ public class SlicedTimeBasedDataWindow extends AbstractDataWindow implements Tim
 		if (ctx == null) {
 			throw new NullParameterException("Parameter can not be null. ");
 		}
+		if (TimeUnit.eternal == this.definition.getUnit()) {
+			//如果是永久时间窗口，则直接返回当前数据集	
+			if (!blocks.isEmpty()) {
+				return blocks.getFirst().getData();
+			}
+			return new ArrayList<>();
+		}
 		long timestamp = ctx.getTimestamp();
 		if (!blocks.isEmpty()) {
 			List<SlicedBlock> _blocks = new LinkedList<>();
