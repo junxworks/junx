@@ -16,14 +16,18 @@
  */
 package io.github.junxworks.junx.test.stat;
 
+import java.util.Date;
+
 import org.junit.Test;
 
+import io.github.junxworks.junx.core.util.DateUtils;
 import io.github.junxworks.junx.stat.Stat;
 import io.github.junxworks.junx.stat.StatContext;
 import io.github.junxworks.junx.stat.StatDefinition;
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
 import io.github.junxworks.junx.stat.datawindow.timewindow.TimeUnit;
 import io.github.junxworks.junx.stat.function.FuncDef;
+import io.github.junxworks.junx.stat.function.FuncEnum;
 
 /**
  * 函数单元测试
@@ -110,7 +114,7 @@ public class StatFunctionTest extends StatTest {
 	}
 
 	/**
-	 * 相同计数
+	 * 唯一计数
 	 * @throws Exception 
 	 */
 	@Test
@@ -129,7 +133,32 @@ public class StatFunctionTest extends StatTest {
 	}
 
 	/**
-	 * 相同计数
+	 * 唯一计数2
+	 * @throws Exception 
+	 */
+	@Test
+	public void count_uniq2() throws Exception {
+		StatDefinition statDef = new StatDefinition();//统计定义
+		statDef.setDataWindowTimeUnit(TimeUnit.day.toString());
+		statDef.setDataWindowSize(20);
+		statDef.setStatFunction(FuncEnum.count_uniq.toString());
+		Stat _stat = Stat.create(statDef);
+		Date current = new Date();
+		Date day = null;
+		for (int i = 0; i < 10; i++) {
+			DataBundle data = new DataBundle();
+			day = DateUtils.addDays(current, i);
+			data.setTimestamp(day.getTime());
+			data.setValue(DateUtils.format(day, "yyyyMMdd")); //值设置成年月日，唯一计数，一天只算1次
+			_stat.compose(data);
+		}
+		StatContext sc = new StatContext();
+		sc.setTimestamp(day.getTime());
+		System.out.println(_stat.getValue(sc));
+	}
+
+	/**
+	 * 最大值
 	 * @throws Exception 
 	 */
 	@Test
@@ -148,7 +177,7 @@ public class StatFunctionTest extends StatTest {
 	}
 
 	/**
-	 * 相同计数
+	 * 最小值
 	 * @throws Exception 
 	 */
 	@Test
@@ -168,7 +197,7 @@ public class StatFunctionTest extends StatTest {
 	}
 
 	/**
-	 * 相同计数
+	 * 快照
 	 * @throws Exception 
 	 */
 	@Test
@@ -190,7 +219,7 @@ public class StatFunctionTest extends StatTest {
 	}
 
 	/**
-	 * 相同计数
+	 * 状态
 	 * @throws Exception 
 	 */
 	@Test
@@ -211,7 +240,7 @@ public class StatFunctionTest extends StatTest {
 	@Test
 	public void prob_dist() throws Exception {
 		StatDefinition model = createStatModel(FuncDef.PROB_DIST);
-		Stat so = Stat.create( model);
+		Stat so = Stat.create(model);
 		long timestamp = System.currentTimeMillis();
 		so.compose(new DataBundle(timestamp, 1.5f));
 		so.compose(new DataBundle(timestamp + 70000, 1));
@@ -267,5 +296,5 @@ public class StatFunctionTest extends StatTest {
 		ctx.setValue(1);
 		System.out.println(so.getValue(ctx));
 	}
-	
+
 }
