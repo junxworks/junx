@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.junxworks</groupId>
   <artifactId>junx</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.4</version>
   <packaging>pom</packaging>
   <name>junx</name>
   <description>开源junx工具包</description>

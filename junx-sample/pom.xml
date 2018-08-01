@@ -8,7 +8,7 @@
 	</parent>
   <artifactId>junx-sample</artifactId>
   <properties>
-  	<junx.version>1.0.1</junx.version>
+  	<junx.version>1.0.4</junx.version>
   </properties>
   <dependencies>
 	  <dependency>
@@ -39,7 +39,7 @@
 	  	<dependency>
 			 <groupId>io.github.junxworks</groupId>
 			 <artifactId>junx-cache</artifactId>
-			 <version>1.0.3.3</version>
+			 <version>${junx.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.ehcache</groupId>
