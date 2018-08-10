@@ -16,6 +16,10 @@
  */
 package io.github.junxworks.junx.stat.datawindow;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +34,26 @@ public abstract class AbstractDataWindow implements DataWindow {
 
 	/** logger. */
 	protected Logger logger = LoggerFactory.getLogger(getClass());
+
+	/**
+	 * 从指定的集合中抽取数据到一个集合
+	 *
+	 * @param <T>
+	 *            the generic type
+	 * @param type
+	 *            the type
+	 * @param blocks
+	 *            the blocks
+	 * @return the t[]
+	 */
+	protected Collection<?> extractSlicedBlocks(Collection<SlicedBlock> blocks) {
+		if (blocks != null && !blocks.isEmpty()) {
+			return blocks.stream().flatMap(block -> {
+				return block.getData().stream();
+			}).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
+	}
 
 	/**
 	 * 默认都是永久存储 

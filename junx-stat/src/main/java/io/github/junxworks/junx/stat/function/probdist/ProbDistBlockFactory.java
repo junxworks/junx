@@ -16,9 +16,9 @@
  */
 package io.github.junxworks.junx.stat.function.probdist;
 
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlock;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow;
+import io.github.junxworks.junx.stat.datawindow.DataWindow;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * 概率分布累计块 对象的工厂类.
@@ -31,7 +31,7 @@ import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWi
 public class ProbDistBlockFactory implements SlicedBlockFactory{
 
 	@Override
-	public SlicedBlock createBlock(SlicedTimeBasedDataWindow dataWindow) {
+	public SlicedBlock createBlock(DataWindow dataWindow) {
 		return new ProbDistSlicedBlock();
 	}
 

@@ -17,6 +17,7 @@
 package io.github.junxworks.junx.stat.datawindow.timewindow;
 
 import io.github.junxworks.junx.core.util.DateUtils;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
 
 /**
  * 基于秒的时间窗口切分策略，如果单位是秒，那么每个切分块就是1秒

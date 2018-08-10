@@ -16,9 +16,9 @@
  */
 package io.github.junxworks.junx.stat.function.avg;
 
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlock;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow;
+import io.github.junxworks.junx.stat.datawindow.DataWindow;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * AvgBlock 对象的工厂类.
@@ -29,16 +29,9 @@ import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWi
  * @since:  v1.0
  */
 public class AvgBlockFactory implements SlicedBlockFactory {
-
-	/**   
-	 * <p>Title: createBlock</p>   
-	 * <p>Description: </p>   
-	 * @param dataWindow
-	 * @return   
-	 * @see io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory#createBlock(io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow)
-	 */
+	
 	@Override
-	public SlicedBlock createBlock(SlicedTimeBasedDataWindow dataWindow) {
+	public SlicedBlock createBlock(DataWindow dataWindow) {
 		return new AvgSlicedBlock();
 	}
 

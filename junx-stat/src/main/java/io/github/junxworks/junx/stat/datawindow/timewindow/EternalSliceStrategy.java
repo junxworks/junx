@@ -17,6 +17,8 @@
 package io.github.junxworks.junx.stat.datawindow.timewindow;
 
 import io.github.junxworks.junx.core.exception.BaseRuntimeException;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * 所有基于单位时间切分策略的基类
@@ -36,9 +38,6 @@ public class EternalSliceStrategy implements SliceStrategy {
 		if (factory == null) {
 			throw new BaseRuntimeException("The SlicedBlockFactory of SlicedTimeBasedDataWindow can't be null.");
 		}
-		//计算
-		SlicedBlock block = factory.createBlock(dataWindow);
-		block.setDefinition(new TimeWindowDefinition(dataWindow.getDefinition().getUnit(), -1));
-		return block;
+		return factory.createBlock(dataWindow);
 	}
 }

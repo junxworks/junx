@@ -17,6 +17,7 @@
 package io.github.junxworks.junx.stat.datawindow.timewindow;
 
 import io.github.junxworks.junx.core.util.DateUtils;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
 
 /**
  * 基于天的时间窗口切分策略，每个切分块就是1天

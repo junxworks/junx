@@ -1,11 +1,11 @@
 /*
  ***************************************************************************************
  * 
- * @Title:  StatisticsDefinition.java   
+ * @Title:  StatDefinition.java   
  * @Package io.github.junxworks.junx.stat   
  * @Description: (用一句话描述该文件做什么)   
  * @author: Michael
- * @date:   2018-7-12 20:49:28   
+ * @date:   2018-8-10 18:03:52   
  * @version V1.0 
  * @Copyright: 2018 JunxWorks. All rights reserved. 
  * 
@@ -42,6 +42,9 @@ public class StatDefinition {
 
 	/** 统计函数附加条件，可以用于区间分布等统计函数. */
 	private String statFunctionAddition;
+
+	/** 数据窗口的优先级类型，优先级数据窗口用到，参考 {@link io.github.junxworks.junx.stat.datawindow.prioritywindow.Priorities} . */
+	private String dataWindowPriorityType;
 
 	public int getDataWindowType() {
 		return dataWindowType;
@@ -82,4 +85,13 @@ public class StatDefinition {
 	public void setStatFunctionAddition(String statFunctionAddition) {
 		this.statFunctionAddition = statFunctionAddition;
 	}
+
+	public String getDataWindowPriorityType() {
+		return dataWindowPriorityType;
+	}
+
+	public void setDataWindowPriorityType(String dataWindowPriorityType) {
+		this.dataWindowPriorityType = dataWindowPriorityType;
+	}
+
 }

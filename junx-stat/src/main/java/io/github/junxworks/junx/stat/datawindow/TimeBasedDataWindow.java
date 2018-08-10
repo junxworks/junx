@@ -14,33 +14,16 @@
  *     文件版本：         修改人：             修改原因：
  ***************************************************************************************
  */
-package io.github.junxworks.junx.stat.datawindow.timewindow;
-
-import io.github.junxworks.junx.stat.datawindow.DataWindow;
+package io.github.junxworks.junx.stat.datawindow;
 
 /**
  * 基于事件时间撮的数据窗口接口定义.
  *
- * @param <T> the generic type
  * @author: michael
  * @date:   2017-5-17 15:36:00
  * @since:  v1.0
  */
 public interface TimeBasedDataWindow extends DataWindow {
-
-	/**
-	 * 时间窗口属性定义
-	 *
-	 * @return definition 属性
-	 */
-	public TimeWindowDefinition getDefinition();
-
-	/**
-	 * 设置时间窗口定义
-	 *
-	 * @param definition 时间窗口定义
-	 */
-	public void setDefinition(TimeWindowDefinition definition);
 
 	/**
 	 * 返回领跑时间

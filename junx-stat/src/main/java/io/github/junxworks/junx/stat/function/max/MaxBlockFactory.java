@@ -16,9 +16,9 @@
  */
 package io.github.junxworks.junx.stat.function.max;
 
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlock;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow;
+import io.github.junxworks.junx.stat.datawindow.DataWindow;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * MaxBlock 对象的工厂类.
@@ -35,10 +35,10 @@ public class MaxBlockFactory implements SlicedBlockFactory {
 	 * <p>Description: </p>   
 	 * @param dataWindow
 	 * @return   
-	 * @see io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory#createBlock(io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow)
+	 * @see io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory#createBlock(io.github.junxworks.junx.stat.datawindow.timewindow.DataWindow)
 	 */
 	@Override
-	public SlicedBlock createBlock(SlicedTimeBasedDataWindow dataWindow) {
+	public SlicedBlock createBlock(DataWindow dataWindow) {
 		return new MaxSlicedBlock();
 	}
 

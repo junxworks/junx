@@ -14,7 +14,8 @@
  *     文件版本：         修改人：             修改原因：
  ***************************************************************************************
  */
-package io.github.junxworks.junx.stat.datawindow.timewindow;
+package io.github.junxworks.junx.stat.datawindow;
+
 /**
  * SlicedBlock 对象的工厂类.
  *
@@ -28,8 +29,8 @@ public interface SlicedBlockFactory{
 	/**
 	 * 生产每个函数自身的时间窗口切分块，每个切分块内部的累计算法由函数自身去实现
 	 *
-	 * @param dataWindow 时间窗口对象
+	 * @param dataWindow 数据窗口对象
 	 * @return the sliced block
 	 */
-	public SlicedBlock createBlock(SlicedTimeBasedDataWindow dataWindow);
+	public SlicedBlock createBlock(DataWindow dataWindow);
 }

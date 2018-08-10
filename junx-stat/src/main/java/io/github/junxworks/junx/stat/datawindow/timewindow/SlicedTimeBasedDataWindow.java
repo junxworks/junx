@@ -26,7 +26,9 @@ import java.util.List;
 import io.github.junxworks.junx.stat.StatContext;
 import io.github.junxworks.junx.stat.datawindow.AbstractDataWindow;
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
-
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
+import io.github.junxworks.junx.stat.datawindow.TimeBasedDataWindow;
 import io.github.junxworks.junx.core.exception.NullParameterException;
 import io.github.junxworks.junx.core.lang.ByteContainer;
 import io.github.junxworks.junx.core.util.DateUtils;
@@ -287,7 +289,7 @@ public class SlicedTimeBasedDataWindow extends AbstractDataWindow implements Tim
 			}
 			checkSlicedBlocks(_blocks, expireTimeP);// 过滤过期block
 			if (!_blocks.isEmpty()) {// 过滤后如果还不为空
-				return _extractData(_blocks);
+				return extractSlicedBlocks(_blocks);
 			}
 		}
 		return new ArrayList<>();
@@ -295,32 +297,7 @@ public class SlicedTimeBasedDataWindow extends AbstractDataWindow implements Tim
 
 	@Override
 	public Collection<?> getData() {
-		return _extractData(blocks);
-	}
-
-	/**
-	 * 从指定的集合中抽取数据到一个集合
-	 *
-	 * @param <T>
-	 *            the generic type
-	 * @param type
-	 *            the type
-	 * @param blocks
-	 *            the blocks
-	 * @return the t[]
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Collection<?> _extractData(List<SlicedBlock> blocks) {
-		if (!blocks.isEmpty()) {
-			Collection res = new ArrayList<>();
-			Iterator<SlicedBlock> _blocks = blocks.iterator();
-			while (_blocks.hasNext()) {
-				SlicedBlock block = _blocks.next();
-				res.addAll(block.getData());
-			}
-			return res;
-		}
-		return new ArrayList<>();
+		return extractSlicedBlocks(blocks);
 	}
 
 	/**

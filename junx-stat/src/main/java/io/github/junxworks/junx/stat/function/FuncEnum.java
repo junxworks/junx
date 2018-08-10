@@ -16,7 +16,7 @@
  */
 package io.github.junxworks.junx.stat.function;
 
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 import io.github.junxworks.junx.stat.function.avg.Avg;
 import io.github.junxworks.junx.stat.function.avg.AvgBlockFactory;
 import io.github.junxworks.junx.stat.function.count.Count;

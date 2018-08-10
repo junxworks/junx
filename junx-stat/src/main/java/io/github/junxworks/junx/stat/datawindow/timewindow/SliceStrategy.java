@@ -16,6 +16,8 @@
  */
 package io.github.junxworks.junx.stat.datawindow.timewindow;
 
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+
 /**
  * 时间窗口切分策略，对一个大的时间窗口进行切分，切分成小的模块
  *

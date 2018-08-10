@@ -14,7 +14,9 @@
  *     文件版本：         修改人：             修改原因：
  ***************************************************************************************
  */
-package io.github.junxworks.junx.stat.datawindow.timewindow;
+package io.github.junxworks.junx.stat.datawindow;
+
+import io.github.junxworks.junx.stat.datawindow.timewindow.ExpirableObject;
 
 /**
  *  为什么要切分时间窗口？因为没有必要缓存（存储）每一条统计数据，目前统计数据是缓存在Redis集群中的，

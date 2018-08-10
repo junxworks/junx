@@ -16,9 +16,9 @@
  */
 package io.github.junxworks.junx.stat.function.countuniq;
 
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlock;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWindow;
+import io.github.junxworks.junx.stat.datawindow.DataWindow;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * SumSlicedBlock 对象的工厂类.
@@ -31,10 +31,10 @@ import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedTimeBasedDataWi
 public class CountUniqBlockFactory implements SlicedBlockFactory {
 
 	/**
-	 * @see io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlockFactory#createBlock()
+	 * @see io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory#createBlock()
 	 */
 	@Override
-	public SlicedBlock createBlock(SlicedTimeBasedDataWindow dataWindow) {
+	public SlicedBlock createBlock(DataWindow dataWindow) {
 		return new CountUniqSlicedBlock();
 	}
 

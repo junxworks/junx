@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.junxworks.junx.stat.StatContext;
-import io.github.junxworks.junx.stat.datawindow.timewindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
 import io.github.junxworks.junx.stat.datawindow.timewindow.TimeWindowDefinition;
 
 /**
@@ -70,16 +70,6 @@ public abstract class BaseSlicedBlock implements SlicedBlock {
 	@Override
 	public boolean isExpired(long timestamp) {
 		return getExpireTime() <= timestamp; //等于也算过期
-	}
-
-	@Override
-	public TimeWindowDefinition getDefinition() {
-		return definition;
-	}
-
-	@Override
-	public void setDefinition(TimeWindowDefinition definition) {
-		this.definition = definition;
 	}
 
 	@Override

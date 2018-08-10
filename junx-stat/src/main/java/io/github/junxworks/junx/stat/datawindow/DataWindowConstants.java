@@ -32,8 +32,8 @@ public class DataWindowConstants {
 	/** 时间窗口. */
 	public static final int WIN_TYPE_TIME = 1;
 
-	/** 长度窗口. */
-	public static final int WIN_TYPE_LEN = 2;
+	/** 优先级窗口. */
+	public static final int WIN_TYPE_PRIORITY = 2;
 
 	/***********************************************
 	 * 数据窗口持久化类型定义，持久化时候可以区分，

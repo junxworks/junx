@@ -17,6 +17,8 @@
 package io.github.junxworks.junx.stat.datawindow.timewindow;
 
 import io.github.junxworks.junx.core.exception.BaseRuntimeException;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
+import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 
 /**
  * 所有基于单位时间切分策略的基类
@@ -38,7 +40,6 @@ public abstract class UnitBasedSliceStrategy  implements SliceStrategy {
 		}
 		//计算
 		SlicedBlock block = factory.createBlock(dataWindow);
-		block.setDefinition(new TimeWindowDefinition(dataWindow.getDefinition().getUnit(), 1));
 		//根据事件时间戳，计算当前block所在的时间区间
 		setExpireTimePoint(block,eventTimestamp);
 		setPacemakerTime(block);
