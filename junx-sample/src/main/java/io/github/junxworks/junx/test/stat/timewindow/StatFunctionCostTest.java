@@ -14,7 +14,7 @@
  *     文件版本：         修改人：             修改原因：
  ***************************************************************************************
  */
-package io.github.junxworks.junx.test.stat;
+package io.github.junxworks.junx.test.stat.timewindow;
 
 import org.junit.Test;
 
