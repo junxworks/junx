@@ -60,5 +60,10 @@
 		<artifactId>spring-boot-configuration-processor</artifactId>
 		<optional>true</optional>
 	 </dependency>
+	 	<dependency>
+		    <groupId>org.msgpack</groupId>
+		    <artifactId>msgpack-core</artifactId>
+		    <version>0.8.16</version>
+		</dependency>
   </dependencies>
 </project>
