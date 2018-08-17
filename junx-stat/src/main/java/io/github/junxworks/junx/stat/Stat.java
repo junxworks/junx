@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
 import io.github.junxworks.junx.stat.datawindow.DataWindow;
-import io.github.junxworks.junx.stat.datawindow.DataWindowBuilder;
 import io.github.junxworks.junx.stat.function.FuncEnum;
 import io.github.junxworks.junx.stat.function.Function;
 
