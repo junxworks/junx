@@ -17,18 +17,13 @@
 package io.github.junxworks.junx.netty.message;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.msgpack.core.MessageBufferPacker;
-import org.msgpack.core.MessagePack;
-import org.msgpack.core.MessagePacker;
-import org.msgpack.core.MessageUnpacker;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+
+import io.github.junxworks.junx.core.lang.ByteContainer;
 
 /**
  * io请求
@@ -137,52 +132,30 @@ public class IoRequest implements IdentifiableMessage {
 	}
 
 	public byte[] toBytes() throws IOException {
-		try (MessageBufferPacker packer = MessagePack.newDefaultBufferPacker();) {
-			pack(packer);
-			return packer.toByteArray();
-		}
+		ByteContainer byteContainer = new ByteContainer();
+		pack(byteContainer);
+		return byteContainer.toBytes();
 	}
 
-	public void toStream(OutputStream out) throws IOException {
-		try (MessagePacker packer = MessagePack.newDefaultPacker(out);) {
-			pack(packer);
-		}
-	}
-
-	protected void pack(MessagePacker packer) throws IOException {
-		packer.packByte(type);
-		packer.packString(id);
-		packer.packBoolean(needResponse);
-		packer.packInt(requestTimeout);
-		if (data == null || data.length == 0) {
-			packer.packBinaryHeader(0);
-		} else {
-			packer.packBinaryHeader(data.length);
-			packer.writePayload(data);
-		}
+	protected void pack(ByteContainer byteContainer) throws IOException {
+		byteContainer.writeByte(type);
+		byteContainer.writeUTF(id);
+		byteContainer.writeBoolean(needResponse);
+		byteContainer.writeInt(requestTimeout);
+		byteContainer.writeBytes(data);
 	}
 
 	public IoRequest readFromBytes(byte[] data) throws IOException {
-		try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(data);) {
-			return unpack(unpacker);
-		}
+		ByteContainer byteContainer = new ByteContainer(data);
+		return unpack(byteContainer);
 	}
 
-	public IoRequest readFromStream(InputStream in) throws IOException {
-		try (MessageUnpacker unpacker = MessagePack.newDefaultUnpacker(in);) {
-			return unpack(unpacker);
-		}
-	}
-
-	protected IoRequest unpack(MessageUnpacker unpacker) throws IOException {
-		setType(unpacker.unpackByte());
-		setId(unpacker.unpackString());
-		setNeedResponse(unpacker.unpackBoolean());
-		setRequestTimeout(unpacker.unpackInt());
-		int dataLength = unpacker.unpackBinaryHeader();
-		if (dataLength > 0) {
-			setData(unpacker.readPayload(dataLength));
-		}
+	protected IoRequest unpack(ByteContainer byteContainer) throws IOException {
+		setType(byteContainer.readByte());
+		setId(byteContainer.readUTF());
+		setNeedResponse(byteContainer.readBoolean());
+		setRequestTimeout(byteContainer.readInt());
+		setData(byteContainer.readByteArray());
 		return this;
 	}
 }
