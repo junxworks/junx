@@ -66,7 +66,7 @@ public class ByteContainerTest {
 		bc.writeInt(count);
 		bc.writeLong(l);
 		bc.writeShort(s);
-		bc.writeString(string);
+		bc.writeUTF(string);
 		return bc.toBytes();
 	}
 
@@ -80,7 +80,7 @@ public class ByteContainerTest {
 		bc.readInt();
 		bc.readLong();
 		bc.readShort();
-		bc.readString();
+		bc.readUTF();
 	}
 
 	public static byte[] msgWrite() throws IOException {
