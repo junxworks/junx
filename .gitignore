@@ -17,3 +17,4 @@ _site/
 .shelf
 *.swp
 *.swo
+*.versionsBackup
