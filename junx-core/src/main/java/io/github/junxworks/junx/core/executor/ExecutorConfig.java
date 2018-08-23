@@ -40,8 +40,8 @@ public class ExecutorConfig {
 	/** 是否需要在线程池启动的时候就创建核心线程。 */
 	private boolean prestartminSpareThreads = false;
 
-	/** 等待队列最大长度，默认是Integer.MAX_VALUE。 */
-	private int maxQueueSize = Integer.MAX_VALUE;
+	/** 等待队列最大长度，默认是10000。 */
+	private int maxQueueSize = 10000;
 
 	/** 为了避免在上下文停止之后，所有的线程在同一时间段被更新，所以进行线程的延迟操作，默认是1000毫秒延迟。 */
 	private long threadRenewalDelay = 1000l;
