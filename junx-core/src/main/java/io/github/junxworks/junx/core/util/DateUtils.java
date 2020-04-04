@@ -54,6 +54,15 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 		return formatDate(time, DEFAULT_FORMAT);
 	}
 
+	public static String currentDate() {
+		return format(new Date(), DEFAULT_FORMAT_DATE);
+	}
+
+	public static String currentDateTime() {
+		return format(new Date(), DEFAULT_FORMAT);
+
+	}
+
 	/**
 	 *采用默认的"yyyy-MM-dd HH:mm:ss"格式化时间戳成Date类型.
 	 *
@@ -217,11 +226,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 *
 	 * @return last date of month 属性
 	 */
-	public static String getLastDateOfMonth() {
+	public static String lastDayOfCurrentMonth() {
+		return lastDayOfMonth(new Date());
+	}
+
+	public static String lastDayOfMonth(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = new Date();
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(dt);
+		cal.setTime(date);
 		int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 		cal.set(Calendar.DAY_OF_MONTH, days);
 		String result = format.format(cal.getTime());
@@ -233,11 +245,14 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 *
 	 * @return frist date of month 属性
 	 */
-	public static String getFristDateOfMonth() {
+	public static String firstDayOfCurrentMonth() {
+		return firstDayOfMonth(new Date());
+	}
+
+	public static String firstDayOfMonth(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Date dt = new Date();
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(dt);
+		cal.setTime(date);
 		int days = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
 		cal.set(Calendar.DAY_OF_MONTH, days);
 		String result = format.format(cal.getTime());
@@ -254,13 +269,5 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 */
 	public static boolean between(Date start, Date end, Date target) {
 		return target.getTime() >= start.getTime() && target.getTime() <= end.getTime();
-	}
-
-	/**
-	 * 主函数.
-	 *
-	 * @param args the arguments
-	 */
-	public static void main(String[] args) {
 	}
 }

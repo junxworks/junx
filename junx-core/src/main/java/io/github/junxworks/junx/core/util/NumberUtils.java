@@ -18,6 +18,10 @@ package io.github.junxworks.junx.core.util;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import io.github.junxworks.junx.core.exception.UnsupportedParameterException;
 
@@ -30,6 +34,8 @@ import io.github.junxworks.junx.core.exception.UnsupportedParameterException;
  */
 public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 
+	private static final int DEFAULT_SCALE = 2;
+
 	/**
 	 * 对一组BigDecimal求和.
 	 *
@@ -37,11 +43,25 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 	 * @return the big decimal
 	 */
 	public static BigDecimal sum(BigDecimal... bigDecimals) {
+		return sum(DEFAULT_SCALE, bigDecimals);
+	}
+
+	public static BigDecimal sum(Object... bigDecimals) {
+		return sum(DEFAULT_SCALE, bigDecimals);
+	}
+
+	public static BigDecimal sum(int scale, Object... numbers) {
+		return sum(scale, Arrays.asList(numbers).stream().flatMap(n -> {
+			return Stream.of(new BigDecimal(String.valueOf(n)));
+		}).collect(Collectors.toList()).toArray(new BigDecimal[0]));
+	}
+
+	public static BigDecimal sum(int scale, BigDecimal... bigDecimals) {
 		BigDecimal sum = new BigDecimal(0);
 		for (int i = 0, len = bigDecimals.length; i < len; i++) {
 			sum = sum.add(bigDecimals[i]);
 		}
-		return sum;
+		return sum.setScale(scale, RoundingMode.HALF_UP);
 	}
 
 	/**
@@ -63,7 +83,21 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 	 * @return the big decimal
 	 */
 	public static BigDecimal subtract(BigDecimal minuend, BigDecimal subtrahend) {
-		return minuend.subtract(subtrahend);
+		return subtract(minuend, DEFAULT_SCALE, subtrahend);
+	}
+
+	public static BigDecimal subtract(Object minuend, int scale, Object... numbers) {
+		return subtract(new BigDecimal(String.valueOf(minuend)), scale, Arrays.asList(numbers).stream().flatMap(n -> {
+			return Stream.of(new BigDecimal(String.valueOf(n)));
+		}).collect(Collectors.toList()).toArray(new BigDecimal[0]));
+	}
+
+	public static BigDecimal subtract(BigDecimal minuend, int scale, BigDecimal... bigDecimals) {
+		BigDecimal res = minuend;
+		for (int i = 0, len = bigDecimals.length; i < len; i++) {
+			res = res.subtract(bigDecimals[i]);
+		}
+		return res.setScale(scale, RoundingMode.HALF_UP);
 	}
 
 	/**
@@ -294,5 +328,4 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 			throw new IllegalArgumentException("Array cannot be empty.");
 		}
 	}
-
 }
