@@ -22,6 +22,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import io.github.junxworks.junx.core.exception.BaseRuntimeException;
+
 // TODO: Auto-generated Javadoc
 /**
  * 日期工具类.
@@ -34,6 +36,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
 	/** 常量 DEFAULT_FORMAT_DATE. */
 	public static final String DEFAULT_FORMAT_DATE = "yyyy-MM-dd";
+
+	public static final String DEFAULT_FORMAT_DATE_TIME = "yyyy-MM-dd HH:mm:ss";
 
 	/** 常量 DEFAULT_FORMAT_TIME. */
 	public static final String DEFAULT_FORMAT_TIME = "HH:mm:ss.SSS";
@@ -49,9 +53,20 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 *
 	 * @param time the time
 	 * @return the string
+	 * 
+	 * @see formatDateTimeString(long time)
 	 */
+	@Deprecated
 	public static String formatDate(long time) {
 		return formatDate(time, DEFAULT_FORMAT);
+	}
+
+	public static String formatDateString(long time) {
+		return formatDate(time, DEFAULT_FORMAT);
+	}
+
+	public static String formatDateTimeString(long time) {
+		return formatDate(time, DEFAULT_FORMAT_DATE_TIME);
 	}
 
 	public static String currentDate() {
@@ -59,7 +74,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	}
 
 	public static String currentDateTime() {
-		return format(new Date(), DEFAULT_FORMAT);
+		return format(new Date(), DEFAULT_FORMAT_DATE_TIME);
 
 	}
 
@@ -69,8 +84,22 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param time the time
 	 * @return the date
 	 */
+	@Deprecated
 	public static Date parseDate(String time) {
 		return parseDate(time, DEFAULT_FORMAT);
+	}
+
+	@Deprecated
+	public static Date parseDateTime(String time) {
+		return parseDate(time, DEFAULT_FORMAT);
+	}
+
+	public static Date parseDateString(String date) {
+		return parseDate(date, DEFAULT_FORMAT_DATE);
+	}
+
+	public static Date parseDateTimeString(String datetime) {
+		return parseDate(datetime, DEFAULT_FORMAT_DATE_TIME);
 	}
 
 	/**
@@ -79,9 +108,11 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param time the time
 	 * @param format the format
 	 * @return the date
+	 * @see parse(String dateTimeStr, String format)
 	 */
-	public static Date parseDate(String time, String format) {
-		return parseDate(time, format, Locale.getDefault());
+	@Deprecated
+	public static Date parseDate(String dateTimeStr, String format) {
+		return parseDate(dateTimeStr, format, Locale.getDefault());
 	}
 
 	/**
@@ -91,28 +122,31 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param format the format
 	 * @param locale 地区
 	 * @return the date
+	 * 
+	 * @see parse(String dateTimeStr, String format, Locale locale)
 	 */
-	public static Date parseDate(String time, String format, Locale locale) {
+	@Deprecated
+	public static Date parseDate(String dateTimeStr, String format, Locale locale) {
 		if (format == null) {
-			format = DEFAULT_FORMAT;
+			format = DEFAULT_FORMAT_DATE;
+		}
+		return parse(dateTimeStr, format, locale);
+	}
+
+	public static Date parse(String dateTimeStr, String format) {
+		return parse(dateTimeStr, format, Locale.getDefault());
+	}
+	
+	public static Date parse(String dateTimeStr, String format, Locale locale) {
+		if (format == null) {
+			throw new BaseRuntimeException("Format can not be null");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
 		try {
-			return sdf.parse(time);
+			return sdf.parse(dateTimeStr);
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
-	}
-
-	/**
-	 * 采用指定的format格式化时间戳成String类型.
-	 *
-	 * @param time the time
-	 * @param format the format
-	 * @return the string
-	 */
-	public static String formatDate(long time, String format) {
-		return formatDate(time, format, Locale.getDefault());
 	}
 
 	/**
@@ -121,11 +155,22 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param d the d
 	 * @param formatStr the format str
 	 * @return the string
+	 * 
+	 * @see formatDate(Date d)
 	 */
+	@Deprecated
 	public static String format(Date d) {
 		if (d == null)
 			return "";
 		return new SimpleDateFormat(DEFAULT_FORMAT_DATE).format(d);
+	}
+
+	public static String formatDate(Date d) {
+		return format(d, DEFAULT_FORMAT_DATE);
+	}
+
+	public static String formatDateTime(Date d) {
+		return format(d, DEFAULT_FORMAT_DATE_TIME);
 	}
 
 	/**
@@ -137,8 +182,22 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 */
 	public static String format(Date d, String formatStr) {
 		if (d == null)
-			return "";
+			throw new BaseRuntimeException("Input parameter can not be null");
 		return new SimpleDateFormat(formatStr).format(d);
+	}
+
+	/**
+	 * 采用指定的format格式化时间戳成String类型.
+	 *
+	 * @param time the time
+	 * @param format the format
+	 * @return the string
+	 * 
+	 * @see formatTimestamp(long time, String format)
+	 */
+	@Deprecated
+	public static String formatDate(long time, String format) {
+		return formatDate(time, format, Locale.getDefault());
 	}
 
 	/**
@@ -148,11 +207,40 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 * @param format the format
 	 * @param locale the locale
 	 * @return the string
+	 * 
+	 * @see formatTimestamp(long timestamp, String format, Locale locale)
 	 */
-	public static String formatDate(long time, String format, Locale locale) {
-		Date date = new Date(time);
+	@Deprecated
+	public static String formatDate(long timestamp, String format, Locale locale) {
 		if (format == null) {
 			format = DEFAULT_FORMAT;
+		}
+		return formatTimestamp(timestamp, format, locale);
+	}
+
+	/**
+	 * 格式化时间戳
+	 *
+	 * @param timestamp the timestamp
+	 * @param format the format
+	 * @return the string
+	 */
+	public static String formatTimestamp(long time, String format) {
+		return formatTimestamp(time, format, Locale.getDefault());
+	}
+
+	/**
+	 * 格式化时间戳
+	 *
+	 * @param timestamp the timestamp
+	 * @param format the format
+	 * @param locale the locale
+	 * @return the string
+	 */
+	public static String formatTimestamp(long timestamp, String format, Locale locale) {
+		Date date = new Date(timestamp);
+		if (format == null) {
+			throw new BaseRuntimeException("Format can not be null");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(format, locale);
 		return sdf.format(date);
