@@ -49,7 +49,7 @@
 		<commons-csv.version>1.5</commons-csv.version>
 		<commons.io.version>2.6</commons.io.version>
 		<curator.version>2.11.1</curator.version>
-		<junit.version>4.12</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<netty.version>4.1.26.Final</netty.version>
 		<msgpack.version>0.8.16</msgpack.version>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
