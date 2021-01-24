@@ -251,7 +251,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 *
 	 * @return monday of this week 属性
 	 */
-	public static String getMondayOfThisWeek() {
+	public static String getMondayOfCurrentWeek() {
 		Calendar c = Calendar.getInstance();
 		int dayofweek = c.get(Calendar.DAY_OF_WEEK) - 1;
 		if (dayofweek == 0)
@@ -283,7 +283,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 	 *
 	 * @return sunday of this week 属性
 	 */
-	public static String getSundayOfThisWeek() {
+	public static String getSundayOfCurrentWeek() {
 		Calendar c = Calendar.getInstance();
 		int dayofweek = c.get(Calendar.DAY_OF_WEEK) - 1;
 		if (dayofweek == 0)
