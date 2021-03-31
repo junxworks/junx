@@ -39,7 +39,7 @@
 		<aerospike.version>4.1.0</aerospike.version>
 		<disruptor.version>3.3.6</disruptor.version>
 		<spring.version>4.3.13.RELEASE</spring.version>
-		<guava.version>25.1-jre</guava.version>
+		<guava.version>29.0-jre</guava.version>
 		<kryo.version>4.0.0</kryo.version>
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<mirror.version>1.6.1</mirror.version>
