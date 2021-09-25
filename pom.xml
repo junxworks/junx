@@ -46,7 +46,7 @@
 		<lz4.version>1.4.1</lz4.version>
 		<fastjson.version>1.2.37</fastjson.version>
 		<commons-csv.version>1.5</commons-csv.version>
-		<commons-io.version>2.6</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<curator.version>2.11.1</curator.version>
 		<junit.version>4.13.2</junit.version>
