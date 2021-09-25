@@ -1,14 +1,14 @@
 /*
  ***************************************************************************************
- * 
+ * EP for web developers.Supported By Junxworks
  * @Title:  ByteUtils.java   
  * @Package io.github.junxworks.junx.core.util   
  * @Description: (用一句话描述该文件做什么)   
- * @author: Michael
- * @date:   2018-7-11 15:34:36   
+ * @author: Administrator
+ * @date:   2021-1-31 15:44:22   
  * @version V1.0 
- * @Copyright: 2018 JunxWorks. All rights reserved. 
- * 
+ * @Copyright: 2021 Junxworks. All rights reserved. 
+ * 注意：
  *  ---------------------------------------------------------------------------------- 
  * 文件修改记录
  *     文件版本：         修改人：             修改原因：
@@ -17,9 +17,12 @@
 
 package io.github.junxworks.junx.core.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,7 @@ import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.pool.KryoFactory;
 import com.esotericsoftware.kryo.pool.KryoPool;
 
+import io.github.junxworks.junx.core.exception.BaseRuntimeException;
 import io.github.junxworks.junx.core.lang.ByteContainer;
 
 // TODO: Auto-generated Javadoc
@@ -315,6 +319,35 @@ public class ByteUtils {
 			return kryo.readObject(input, type);
 		} finally {
 			pool.release(kryo);
+		}
+	}
+
+	/**
+	 * 对象采用java默认序列化
+	 *
+	 * @param obj the obj
+	 * @return the byte[]
+	 */
+	public static byte[] obj2bytesJava(Object obj) {
+		try (ByteArrayOutputStream bo = new ByteArrayOutputStream(); ObjectOutputStream oo = new ObjectOutputStream(bo);) {
+			oo.writeObject(obj);
+			byte[] bytes = bo.toByteArray();
+			return bytes;
+		} catch (Exception e) {
+			throw new BaseRuntimeException("序列化对象失败:" + obj.getClass(), e);
+		}
+	}
+
+	/**
+	 * java默认序列化还原对象
+	 *
+	 * @param obj the obj
+	 * @return the byte[]
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T bytes2ObjJava(Class<T> clazz, byte[] bytes) throws ClassNotFoundException, IOException {
+		try (ByteArrayInputStream bi = new ByteArrayInputStream(bytes); ObjectInputStream oi = new ObjectInputStream(bi);) {
+			return (T) oi.readObject();
 		}
 	}
 }

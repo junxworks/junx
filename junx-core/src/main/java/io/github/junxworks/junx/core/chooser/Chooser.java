@@ -72,7 +72,7 @@ public class Chooser<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public T next() {
-		if (targets == null && targets.length == 0) {
+		if (targets == null || targets.length == 0) {
 			return null;
 		}
 		return (T) strategy.getStrategy().choose(targets, context);

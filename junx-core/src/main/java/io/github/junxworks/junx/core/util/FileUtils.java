@@ -274,21 +274,8 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
 	 * @param target the target
 	 */
 	public static void nioTransferCopy(File source, File target) throws IOException {
-		FileChannel in = null;
-		FileChannel out = null;
-		FileInputStream inStream = null;
-		FileOutputStream outStream = null;
-		try {
-			inStream = new FileInputStream(source);
-			outStream = new FileOutputStream(target);
-			in = inStream.getChannel();
-			out = outStream.getChannel();
+		try (FileInputStream inStream = new FileInputStream(source); FileChannel in = inStream.getChannel(); FileOutputStream outStream = new FileOutputStream(target); FileChannel out = outStream.getChannel();) {
 			in.transferTo(0, in.size(), out);
-		} finally {
-			close(inStream);
-			close(in);
-			close(outStream);
-			close(out);
 		}
 	}
 
@@ -373,12 +360,13 @@ public final class FileUtils extends org.apache.commons.io.FileUtils {
 	public static String getMD5String(InputStream in) throws Exception {
 		byte[] buffer = new byte[8 * 1024];
 		MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-		DigestInputStream digestInputStream = new DigestInputStream(in, messageDigest);
-		while (digestInputStream.read(buffer) > 0)
-			;
-		messageDigest = digestInputStream.getMessageDigest();
-		BigInteger bi = new BigInteger(1, messageDigest.digest());
-		return bi.toString(16);
+		try (DigestInputStream digestInputStream = new DigestInputStream(in, messageDigest);) {
+			while (digestInputStream.read(buffer) > 0)
+				;
+			messageDigest = digestInputStream.getMessageDigest();
+			BigInteger bi = new BigInteger(1, messageDigest.digest());
+			return bi.toString(16);
+		}
 	}
 
 	/**

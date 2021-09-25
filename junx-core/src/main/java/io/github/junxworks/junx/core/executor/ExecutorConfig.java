@@ -82,7 +82,7 @@ public class ExecutorConfig {
 	}
 
 	public int getMinSpareThreads() {
-		return minSpareThreads;
+		return minSpareThreads > getMaxThreads() ? getMaxThreads() : minSpareThreads;
 	}
 
 	public void setMinSpareThreads(int minSpareThreads) {

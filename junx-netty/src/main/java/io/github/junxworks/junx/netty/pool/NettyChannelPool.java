@@ -18,14 +18,12 @@ package io.github.junxworks.junx.netty.pool;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import io.github.junxworks.junx.core.exception.FatalException;
 import io.github.junxworks.junx.core.lifecycle.Service;
-import io.github.junxworks.junx.core.util.SystemUtils;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.Channel;
@@ -42,7 +40,6 @@ import io.netty.channel.pool.FixedChannelPool;
 import io.netty.channel.pool.FixedChannelPool.AcquireTimeoutAction;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.Future;
 
 /**
  * 为netty提供长连接的连接池，采用装饰模式封装了{@link io.netty.channel.pool.FixedChannelPool}。
@@ -54,31 +51,38 @@ import io.netty.util.concurrent.Future;
  */
 public class NettyChannelPool extends Service {
 
+	/** event loop group. */
 	private EventLoopGroup eventLoopGroup;
 
+	/** 常量 logger. */
 	private static final Logger logger = LoggerFactory.getLogger(NettyChannelPool.class);
 
 	/** fixpool. */
 	private FixedChannelPool fixpool = null;
 
-	private int maxConnect = SystemUtils.SYS_PROCESSORS;
+	/** 最大连接数. */
+	private int maxConnect = PoolConstants.DEFAULT_MAX_CONNECTIONS;
 
-	private int connTimeout = 2000;
+	/** 连接超时时间. */
+	private int connTimeout = PoolConstants.DEFAULT_CONNECT_TIMEOUT;
 
+	/** 服务器地址. */
 	private SocketAddress serverAddress;
 
+	/** pool handler. */
 	private ChannelPoolHandler poolHandler;
 
 	/** 心跳检测. */
 	private ChannelHealthChecker healthCheck = ChannelHealthChecker.ACTIVE;
 
-	/** 请求连接超时时候的动作. */
-	private AcquireTimeoutAction acquireTimeoutAction;
+	/** 连接池请求连接超时时候的动作. */
+	private AcquireTimeoutAction acquireTimeoutAction = PoolConstants.DEFAULT_ACQUIRE_TIMEOUT_ACTION;
 
-	private long acquireTimeoutMillis = -1;
+	/** 连接池请求连接超时时间 */
+	private long acquireTimeoutMillis = PoolConstants.DEFAULT_MAX_ACQUIRE_TIMEOUT;
 
 	/** 最大等待请求连接数. */
-	private int maxPendingAcquires = Integer.MAX_VALUE;
+	private int maxPendingAcquires = PoolConstants.DEFAULT_MAX_PENDING_ACQUIRES;
 
 	/** 归还连接的时候是否检测健康状况. */
 	private boolean releaseHealthCheck = true;
@@ -86,8 +90,15 @@ public class NettyChannelPool extends Service {
 	/** 获取连接的策略，true的话就是LIFO，否则FIFO. */
 	private boolean lastRecentUsed = false;
 
+	/** channel initializer. */
 	private ChannelInitializer<Channel> channelInitializer;
 
+	/**
+	 * 构造一个新的 netty channel pool 对象.
+	 *
+	 * @param serverAddress the server address
+	 * @param channelInitializer the channel initializer
+	 */
 	public NettyChannelPool(SocketAddress serverAddress, ChannelInitializer<Channel> channelInitializer) {
 		this.serverAddress = serverAddress;
 		this.channelInitializer = channelInitializer;
@@ -206,14 +217,22 @@ public class NettyChannelPool extends Service {
 	 * @param timeout the timeout
 	 * @return the channel
 	 */
-	//申请连接，没有申请到(或者网络断开)，返回null
+	@Deprecated
 	public Channel acquire(int timeoutMillis) throws Exception {
+		return acquire();
+	}
+
+	/**
+	 * 申请连接.
+	 *
+	 * @return the channel
+	 * @throws Exception the exception
+	 */
+	public Channel acquire() throws Exception {
 		try {
-			Future<Channel> fch = fixpool.acquire();
-			Channel ch = fch.get(timeoutMillis, TimeUnit.MILLISECONDS);
-			return ch;
+			return fixpool.acquire().get();
 		} catch (Exception e) {
-			logger.error("Exception accurred when acquire channel from channel pool.", e);
+			logger.error("Exception accurred when acquire channel from pool[" + serverAddress.toString() + "]", e);
 			throw e;
 		}
 	}
@@ -230,10 +249,15 @@ public class NettyChannelPool extends Service {
 				fixpool.release(channel);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception accurred when release channel from pool[" + serverAddress.toString() + "]", e);
 		}
 	}
 
+	/**
+	 * Do start.
+	 *
+	 * @throws Throwable the throwable
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void doStart() throws Throwable {
@@ -252,9 +276,9 @@ public class NettyChannelPool extends Service {
 		Bootstrap b = new Bootstrap();
 		b.group(eventLoopGroup);
 		Class<SocketChannel> socketChanellClass = null;
-		if(eventLoopGroup instanceof EpollEventLoopGroup) {
+		if (eventLoopGroup instanceof EpollEventLoopGroup) {
 			socketChanellClass = (Class<SocketChannel>) Class.forName(EpollSocketChannel.class.getCanonicalName());
-		}else {
+		} else {
 			socketChanellClass = (Class<SocketChannel>) Class.forName(NioSocketChannel.class.getCanonicalName());
 		}
 		b.channel(socketChanellClass);
@@ -269,6 +293,11 @@ public class NettyChannelPool extends Service {
 		fixpool = new FixedChannelPool(b, handler, healthCheck, acquireTimeoutAction, acquireTimeoutMillis, maxConnect, maxPendingAcquires, releaseHealthCheck, lastRecentUsed);
 	}
 
+	/**
+	 * Do stop.
+	 *
+	 * @throws Throwable the throwable
+	 */
 	@Override
 	protected void doStop() throws Throwable {
 		if (fixpool != null) {

@@ -59,11 +59,11 @@ public class NettyChannelPoolManager extends Service {
 	/** 全局的event loop group是否应该在manager停止的时候shutdown. */
 	private boolean eventLoopGroupShouldShutdown = true;
 
-	/** 每个连接池默认的连接池最大连接数，默认值core_processor*2. */
-	private int maxConnectionsPerPool = SystemUtils.SYS_PROCESSORS * 2;
+	/** 每个连接池默认的连接池最大连接数. */
+	private int maxConnectionsPerPool = PoolConstants.DEFAULT_MAX_CONNECTIONS;
 
 	/** 连接池创建连接的超时时间. */
-	private int connTimeout = 2000;
+	private int connTimeout = PoolConstants.DEFAULT_CONNECT_TIMEOUT;
 
 	public EventLoopGroup getGlobalEventLoopGroup() {
 		return globalEventLoopGroup;
@@ -113,7 +113,7 @@ public class NettyChannelPoolManager extends Service {
 	}
 
 	public NettyChannelPool getPool(SocketAddress addr, ChannelPoolHandler handler, int maxConnections) throws Exception {
-		return getPool(addr, globalEventLoopGroup, handler, ChannelHealthChecker.ACTIVE, null, -1, maxConnections, Integer.MAX_VALUE, true, false);
+		return getPool(addr, globalEventLoopGroup, handler, ChannelHealthChecker.ACTIVE, PoolConstants.DEFAULT_ACQUIRE_TIMEOUT_ACTION, PoolConstants.DEFAULT_MAX_ACQUIRE_TIMEOUT, maxConnections, PoolConstants.DEFAULT_MAX_PENDING_ACQUIRES, true, false);
 	}
 
 	public NettyChannelPool getPool(SocketAddress addr, ChannelPoolHandler handler, ChannelHealthChecker healthCheck, AcquireTimeoutAction action, long acquireTimeoutMillis, int maxConnections, int maxPendingAcquires, boolean releaseHealthCheck, boolean lastRecentUsed) throws Exception {

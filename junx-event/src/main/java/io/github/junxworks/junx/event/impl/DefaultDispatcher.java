@@ -97,12 +97,18 @@ public class DefaultDispatcher implements EventDispatcher {
 	 */
 	@Override
 	public void dispatch(EventContext event) {
+		if (event == null) {
+			throw new BaseRuntimeException("Event context can not be null.");
+		}
 		EventChannel channel = null;
 		try {
-			handledEvents.incrementAndGet();
 			String topic = event.getTopic();
+			if (StringUtils.isNull(topic)) {
+				throw new BaseRuntimeException("Event topic can not be null.");
+			}
 			List<EventChannel> channels = topics.get(topic);
 			if (channels != null && !channels.isEmpty()) {
+				handledEvents.incrementAndGet();
 				if (channels.size() == 1) {// 如果当前topic只有一个channel，大部分情况下是1，直接取第一个channel，发送事件
 					channel = channels.get(0);
 					channel.onEvent(event);

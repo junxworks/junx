@@ -3,7 +3,7 @@
   <parent>
     <groupId>io.github.junxworks</groupId>
     <artifactId>junx</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.9</version>
   </parent>
   <artifactId>junx-core</artifactId>
   <dependencies>
@@ -24,10 +24,6 @@
 	    <artifactId>lz4-java</artifactId>
 	</dependency>
 	<dependency>
-	    <groupId>com.jcraft</groupId>
-	    <artifactId>jzlib</artifactId>
-	</dependency>
-	<dependency>
 	    <groupId>com.alibaba</groupId>
 	    <artifactId>fastjson</artifactId>
 	</dependency>
@@ -46,6 +42,10 @@
 	<dependency>
 	    <groupId>com.lmax</groupId>
 	    <artifactId>disruptor</artifactId>
+	</dependency>
+	<dependency>
+	    <groupId>commons-codec</groupId>
+	    <artifactId>commons-codec</artifactId>
 	</dependency>
   </dependencies>
 </project>

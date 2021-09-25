@@ -8,7 +8,7 @@
 	</parent>
   <artifactId>junx-sample</artifactId>
   <properties>
-  	<junx.version>1.0.5</junx.version>
+  	<junx.version>1.0.9</junx.version>
   </properties>
   <dependencies>
 	  <dependency>

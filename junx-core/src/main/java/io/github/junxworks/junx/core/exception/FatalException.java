@@ -26,6 +26,11 @@ package io.github.junxworks.junx.core.exception;
 public class FatalException extends BaseRuntimeException {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8210543412924486043L;
+
+	/**
 	 * @see BaseRuntimeException#BaseRuntimeException(String)
 	 */
 	public FatalException(String msg) {

@@ -5,9 +5,11 @@
 .classpath
 .project
 .settings/
+.mvn/
 target/
 bin/
 _site/
+logs/
 .idea
 *.iml
 *.ipr
@@ -18,3 +20,22 @@ _site/
 *.swp
 *.swo
 *.versionsBackup
+
+### STS ###
+.apt_generated
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/

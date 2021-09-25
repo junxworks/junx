@@ -26,6 +26,7 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import io.github.junxworks.junx.core.exception.BaseRuntimeException;
 import io.github.junxworks.junx.core.exception.FatalException;
 import io.github.junxworks.junx.core.lifecycle.Service;
 import io.github.junxworks.junx.core.util.ObjectUtils;
@@ -96,27 +97,31 @@ public class StandardThreadExecutor extends Service implements InnerExecutor, Re
 	 */
 	@Override
 	protected void doStart() throws Throwable {
-		taskqueue = new TaskQueue(config.getMaxQueueSize());
-		TaskThreadFactory tf = new TaskThreadFactory(config.getNamePrefix(), config.isDaemon(), config.getThreadPriority());
-		executor = new ThreadPoolExecutor(config.getMinSpareThreads(), config.getMaxThreads(), config.getMaxIdleTime(), TimeUnit.SECONDS, taskqueue, tf);
-		executor.setThreadRenewalDelay(config.getThreadRenewalDelay());
-		if (rejectedExecutionHandler == null) {//代码写死的优先级最高，其次是配置
-			try {
-				RejectedExecutionHandlers handlerEnum = RejectedExecutionHandlers.valueOf(config.getRejectedExecutionHandler());
-				rejectedExecutionHandler = handlerEnum.getHandler();
-			} catch (Exception e) {
+		try {
+			taskqueue = new TaskQueue(config.getMaxQueueSize());
+			TaskThreadFactory tf = new TaskThreadFactory(config.getNamePrefix(), config.isDaemon(), config.getThreadPriority());
+			executor = new ThreadPoolExecutor(config.getMinSpareThreads(), config.getMaxThreads(), config.getMaxIdleTime(), TimeUnit.SECONDS, taskqueue, tf);
+			executor.setThreadRenewalDelay(config.getThreadRenewalDelay());
+			if (rejectedExecutionHandler == null) {//代码写死的优先级最高，其次是配置
 				try {
-					rejectedExecutionHandler = (RejectedExecutionHandler) ObjectUtils.createObject(config.getRejectedExecutionHandler());
-				} catch (Exception fatal) {
-					throw new FatalException(StringUtils.format("Exception occurred when init rejectedExecutionHandler for thread executor which name prefix is \"%s\"", config.getNamePrefix()), fatal);
+					RejectedExecutionHandlers handlerEnum = RejectedExecutionHandlers.valueOf(config.getRejectedExecutionHandler());
+					rejectedExecutionHandler = handlerEnum.getHandler();
+				} catch (Exception e) {
+					try {
+						rejectedExecutionHandler = (RejectedExecutionHandler) ObjectUtils.createObject(config.getRejectedExecutionHandler());
+					} catch (Exception fatal) {
+						throw new BaseRuntimeException(StringUtils.format("Exception occurred when init rejectedExecutionHandler for thread executor which name prefix is \"%s\"", config.getNamePrefix()), fatal);
+					}
 				}
 			}
+			executor.setRejectedExecutionHandler(rejectedExecutionHandler);
+			if (config.isPrestartminSpareThreads()) {
+				executor.prestartAllCoreThreads();
+			}
+			taskqueue.setParent(executor);
+		} catch (Exception e) {
+			throw new FatalException("StandardThreadExecutor " + this.getServiceName() + " start failed.", e);
 		}
-		executor.setRejectedExecutionHandler(rejectedExecutionHandler);
-		if (config.isPrestartminSpareThreads()) {
-			executor.prestartAllCoreThreads();
-		}
-		taskqueue.setParent(executor);
 	}
 
 	/**
