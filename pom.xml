@@ -44,7 +44,7 @@
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<mirror.version>1.6.1</mirror.version>
 		<lz4.version>1.4.1</lz4.version>
-		<fastjson.version>1.2.37</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<commons-csv.version>1.5</commons-csv.version>
 		<commons-io.version>2.7</commons-io.version>
 		<commons-codec.version>1.14</commons-codec.version>
