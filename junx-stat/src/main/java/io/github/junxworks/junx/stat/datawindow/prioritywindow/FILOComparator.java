@@ -30,7 +30,7 @@ public class FILOComparator implements BundleComparator {
 
 	@Override
 	public int compare(DataBundle o1, DataBundle o2) {
-		return o1.getTimestamp() >= o2.getTimestamp() ? 1 : -1;
+		return o1.getTimestamp() >= o2.getTimestamp() ? -1 : 1;
 	}
 
 }

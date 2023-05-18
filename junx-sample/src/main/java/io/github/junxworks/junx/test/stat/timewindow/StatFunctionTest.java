@@ -56,6 +56,19 @@ public class StatFunctionTest extends StatTest {
 		System.out.println(so.getValue(ctx));
 	}
 
+	@Test
+	public void liner() throws Exception {
+		StatDefinition model = createStatModel(FuncDef.LINEAR_REGRESSION);
+		Stat so = Stat.create(model);
+		long timestamp = System.currentTimeMillis();
+		so.compose(new DataBundle(timestamp, 1.5f));
+		so.compose(new DataBundle(timestamp + 70000, 1.1));
+		so.compose(new DataBundle(timestamp + 200000, 2), new DataBundle(timestamp + 200100, 2.3f));
+		StatContext ctx = new StatContext();
+		ctx.setTimestamp(timestamp + 500000);
+		System.out.println(so.getValue(ctx));
+	}
+
 	/**
 	 * 平均数
 	 * @throws Exception 

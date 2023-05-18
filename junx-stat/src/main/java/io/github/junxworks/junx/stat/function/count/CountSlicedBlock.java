@@ -16,11 +16,10 @@
  */
 package io.github.junxworks.junx.stat.function.count;
 
-import io.github.junxworks.junx.stat.datawindow.DataBundle;
-import io.github.junxworks.junx.stat.function.BaseSlicedBlock;
-
 import io.github.junxworks.junx.core.lang.ByteContainer;
 import io.github.junxworks.junx.core.util.NumberUtils;
+import io.github.junxworks.junx.stat.datawindow.DataBundle;
+import io.github.junxworks.junx.stat.function.BaseSlicedBlock;
 
 /**
  * 计数函数使用的切分块，累计某个时间单位内的统计值

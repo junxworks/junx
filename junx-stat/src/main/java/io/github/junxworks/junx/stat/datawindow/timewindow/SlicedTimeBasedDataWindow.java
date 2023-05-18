@@ -23,15 +23,17 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import io.github.junxworks.junx.core.exception.NullParameterException;
+import io.github.junxworks.junx.core.lang.ByteContainer;
+import io.github.junxworks.junx.core.util.DateUtils;
 import io.github.junxworks.junx.stat.StatContext;
 import io.github.junxworks.junx.stat.datawindow.AbstractDataWindow;
 import io.github.junxworks.junx.stat.datawindow.DataBundle;
 import io.github.junxworks.junx.stat.datawindow.SlicedBlock;
 import io.github.junxworks.junx.stat.datawindow.SlicedBlockFactory;
 import io.github.junxworks.junx.stat.datawindow.TimeBasedDataWindow;
-import io.github.junxworks.junx.core.exception.NullParameterException;
-import io.github.junxworks.junx.core.lang.ByteContainer;
-import io.github.junxworks.junx.core.util.DateUtils;
 
 /**
  * 我们把基于时间的数据窗口（Time-Based DataWindow）简称为时间窗口，
@@ -284,12 +286,16 @@ public class SlicedTimeBasedDataWindow extends AbstractDataWindow implements Tim
 			SlicedBlock block = this.definition.getUnit().getStrategy().slice(this, timestamp);
 			long _pacemakerTime = block.getPacemakerTime();
 			long expireTimeP = this.expireTimePoint;
-			if (pacemakerTime < _pacemakerTime) {// 当指定时间撮所在block的领跑时间大于当前时间窗口的领跑时间时，要重新计算过期时间点
+			if (pacemakerTime < _pacemakerTime) {// 当指定时间戳所在block的领跑时间大于当前时间窗口的领跑时间时，要重新计算过期时间点
 				expireTimeP = calculateWindowExpireTimePoint(_pacemakerTime);// 过期时间是通过领跑时间动态计算出来的
 			}
 			checkSlicedBlocks(_blocks, expireTimeP);// 过滤过期block
 			if (!_blocks.isEmpty()) {// 过滤后如果还不为空
-				return extractSlicedBlocks(_blocks);
+				List<SlicedBlock> res = Lists.newArrayList();
+				for (int i = _blocks.size() - 1; i >= 0; i--) {
+					res.add(_blocks.get(i));
+				}
+				return extractSlicedBlocks(res);
 			}
 		}
 		return new ArrayList<>();

@@ -105,6 +105,7 @@ public abstract class Service implements Lifecycle, Sortable {
 				logger.info("Start service " + getServiceName());
 				doStart();
 			} catch (Throwable ex) {
+				status = STOPPED;
 				doException(ex);
 				logger.error("Exceptions occurred when start service [name=" + getServiceName() + "]", ex);
 				return false;
@@ -131,6 +132,7 @@ public abstract class Service implements Lifecycle, Sortable {
 				doSuspend();
 				logger.info("Service [name=" + getServiceName() + "] suspended.");
 			} catch (Throwable ex) {
+				status = RUNNING;
 				logger.error("Exceptions occurred when suspend service [name=" + getServiceName() + "]", ex);
 				return false;
 			}
@@ -174,6 +176,7 @@ public abstract class Service implements Lifecycle, Sortable {
 		if (!isEnable()) {
 			return false;
 		}
+		int currentStatus = status;
 		if (status == STOPPING || status == STOPPED) {
 			Exception e = new StopServiceException("Could not stop Service [name=" + getServiceName() + "] in status [" + STATUS_NAMES[status] + "].");
 			logger.warn(e.toString());
@@ -184,6 +187,7 @@ public abstract class Service implements Lifecycle, Sortable {
 				doStop();
 				logger.info("Service [name=" + getServiceName() + "] stopped.");
 			} catch (Throwable ex) {
+				status = currentStatus;
 				logger.error("Exceptions occurred when stop service [name=" + getServiceName() + "]", ex);
 				return false;
 			}
@@ -202,7 +206,6 @@ public abstract class Service implements Lifecycle, Sortable {
 		if (isRunning()) {
 			stop();
 		}
-
 		start();
 	}
 

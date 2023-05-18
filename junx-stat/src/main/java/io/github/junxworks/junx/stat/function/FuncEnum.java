@@ -25,6 +25,8 @@ import io.github.junxworks.junx.stat.function.countequal.CountEqual;
 import io.github.junxworks.junx.stat.function.countequal.CountEqualBlockFactory;
 import io.github.junxworks.junx.stat.function.countuniq.CountUniq;
 import io.github.junxworks.junx.stat.function.countuniq.CountUniqBlockFactory;
+import io.github.junxworks.junx.stat.function.linearregression.LinearRegression;
+import io.github.junxworks.junx.stat.function.linearregression.LinearRegressionBlockFactory;
 import io.github.junxworks.junx.stat.function.max.Max;
 import io.github.junxworks.junx.stat.function.max.MaxBlockFactory;
 import io.github.junxworks.junx.stat.function.min.Min;
@@ -59,7 +61,8 @@ public enum FuncEnum {
 	min(new MinBlockFactory(), new  Min(),Double.class),
 	snapshot(new SnapshotBlockFactory(), new Snapshot(), String.class),
 	status(new StatusBlockFactory(), new Status(),Integer.class),
-	sum(new SumBlockFactory(), new Sum(), Double.class);
+	sum(new SumBlockFactory(), new Sum(), Double.class),
+	liner_regression(new LinearRegressionBlockFactory(),new LinearRegression(),Double.class);
 
 	private Class<?> resultType;
 

@@ -58,4 +58,8 @@ public class FuncDef {
 	/** 区间分布. */
 	public static final String RANGE_DIST = "range_dist";
 
+	/** 线性回归. */
+	public static final String LINEAR_REGRESSION = "liner_regression";
+	
+
 }

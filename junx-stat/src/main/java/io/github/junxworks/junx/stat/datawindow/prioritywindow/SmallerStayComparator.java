@@ -32,7 +32,7 @@ public class SmallerStayComparator implements BundleComparator {
 
 	@Override
 	public int compare(DataBundle o1, DataBundle o2) {
-		return NumberUtils.createBigDecimal(o1.getValue().toString()).subtract(NumberUtils.createBigDecimal(o2.getValue().toString())).doubleValue() > 0 ? 1 : -1;
+		return NumberUtils.createBigDecimal(o1.getValue().toString()).subtract(NumberUtils.createBigDecimal(o2.getValue().toString())).doubleValue() > 0 ? -1 : 1;
 	}
 
 }

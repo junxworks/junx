@@ -288,7 +288,7 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 	}
 
 	public static BigDecimal mutiply(Object multiplicand1, Object multiplicand2) {
-		return mutiply(multiplicand1, multiplicand2, 0);
+		return mutiply(multiplicand1, multiplicand2, DEFAULT_SCALE);
 	}
 
 	public static BigDecimal mutiply(Object multiplicand1, Object multiplicand2, int scale) {
@@ -296,7 +296,7 @@ public class NumberUtils extends org.apache.commons.lang3.math.NumberUtils {
 	}
 
 	public static BigDecimal mutiply(BigDecimal multiplicand1, BigDecimal multiplicand2) {
-		return mutiply(multiplicand1, multiplicand2, 0);
+		return mutiply(multiplicand1, multiplicand2, DEFAULT_SCALE);
 	}
 
 	public static BigDecimal mutiply(BigDecimal multiplicand1, BigDecimal multiplicand2, int scale) {

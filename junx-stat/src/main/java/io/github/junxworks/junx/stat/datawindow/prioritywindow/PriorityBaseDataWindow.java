@@ -22,6 +22,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.esotericsoftware.minlog.Log;
 import com.google.common.collect.Lists;
@@ -68,7 +70,7 @@ public class PriorityBaseDataWindow extends AbstractDataWindow {
 		this.definition = definition;
 		this.blockFactory = blockFactory;
 		sortedBundles = Lists.newLinkedList();
-		blocks = Maps.newHashMap();
+		blocks = Maps.newLinkedHashMap();
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +116,9 @@ public class PriorityBaseDataWindow extends AbstractDataWindow {
 
 	@Override
 	public Collection<?> getData() {
-		return extractSlicedBlocks(blocks.values());
+		return extractSlicedBlocks(sortedBundles.stream().flatMap(b -> {
+			return Stream.of(blocks.get(b));
+		}).collect(Collectors.toList()));
 	}
 
 	/* (non-Javadoc)
@@ -129,7 +133,7 @@ public class PriorityBaseDataWindow extends AbstractDataWindow {
 			//先进行优先级排序，找出多余的bundle
 			sortedBundles.sort(definition.getComparator());
 			while (sortedBundles.size() > windowSize) {
-				DataBundle removed = sortedBundles.removeLast();
+				DataBundle removed = sortedBundles.removeFirst();
 				blocks.remove(removed);
 				newBundles.remove(removed);
 			}

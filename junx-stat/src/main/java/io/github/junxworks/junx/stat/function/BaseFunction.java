@@ -18,9 +18,10 @@ package io.github.junxworks.junx.stat.function;
 
 import java.util.Collection;
 
-import io.github.junxworks.junx.stat.StatContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import io.github.junxworks.junx.stat.StatContext;
 
 /**
  * 统计函数的基类

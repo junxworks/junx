@@ -18,6 +18,8 @@ package io.github.junxworks.junx.core.lifecycle;
 
 import com.esotericsoftware.minlog.Log;
 
+import io.github.junxworks.junx.core.exception.BaseRuntimeException;
+import io.github.junxworks.junx.core.exception.FatalException;
 import io.github.junxworks.junx.core.util.StringUtils;
 
 /**
@@ -96,6 +98,7 @@ public abstract class ThreadService extends Service implements Runnable {
 				onRun();
 			} catch (Throwable ex) {
 				Log.error(StringUtils.format("Exception accurred when thread service \"%s\" running", getServiceName()), ex);
+				doException(ex);
 			}
 		}
 	}

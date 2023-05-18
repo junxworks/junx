@@ -3,7 +3,7 @@
   <parent>
     <groupId>io.github.junxworks</groupId>
     <artifactId>junx</artifactId>
-    <version>1.0.9</version>
+    <version>1.0.12</version>
   </parent>
   <artifactId>junx-stat</artifactId>
    <dependencies>
@@ -11,5 +11,9 @@
   		<groupId>io.github.junxworks</groupId>
   		<artifactId>junx-core</artifactId>
   	</dependency>
+	<dependency>
+	    <groupId>org.apache.commons</groupId>
+	    <artifactId>commons-math3</artifactId>
+	</dependency>
   </dependencies>
 </project>

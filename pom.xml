@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.junxworks</groupId>
   <artifactId>junx</artifactId>
-  <version>1.0.9</version>
+  <version>1.0.12</version>
   <packaging>pom</packaging>
   <name>junx</name>
   <description>开源junx工具包</description>
@@ -38,26 +38,27 @@
 		<ehcache.version>3.3.1</ehcache.version>
 		<aerospike.version>4.1.0</aerospike.version>
 		<disruptor.version>3.3.6</disruptor.version>
-		<spring.version>4.3.13.RELEASE</spring.version>
+		<spring.version>5.3.2</spring.version>
 		<guava.version>29.0-jre</guava.version>
 		<kryo.version>4.0.0</kryo.version>
 		<commons-lang3.version>3.7</commons-lang3.version>
 		<mirror.version>1.6.1</mirror.version>
 		<lz4.version>1.4.1</lz4.version>
-		<fastjson.version>1.2.37</fastjson.version>
+		<fastjson.version>1.2.78</fastjson.version>
 		<commons-csv.version>1.5</commons-csv.version>
 		<commons-io.version>2.7</commons-io.version>
 		<commons-codec.version>1.14</commons-codec.version>
 		<curator.version>2.11.1</curator.version>
 		<junit.version>4.13.2</junit.version>
 		<netty.version>4.1.42.Final</netty.version>
-		<msgpack.version>0.8.16</msgpack.version>
+		<msgpack.version>0.9.0</msgpack.version>
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
 		<maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
 		<maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+		<math.version>3.6.1</math.version>
 	</properties>
   <dependencies>
 	<dependency>
@@ -188,6 +189,11 @@
 			    <groupId>org.msgpack</groupId>
 			    <artifactId>msgpack-core</artifactId>
 			    <version>${msgpack.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-math3</artifactId>
+			    <version>${math.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

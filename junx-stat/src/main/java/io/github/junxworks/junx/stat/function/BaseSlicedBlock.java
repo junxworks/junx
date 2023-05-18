@@ -115,7 +115,7 @@ public abstract class BaseSlicedBlock implements SlicedBlock {
 
 	@Override
 	public void clear() {
-		throw new UnsupportedOperationException();
+		values.clear();
 	}
 
 	@Override

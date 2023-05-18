@@ -36,6 +36,21 @@ import io.github.junxworks.junx.stat.function.FuncDef;
 public class StatFunctionTest extends StatTest {
 
 	@Test
+	public void linearRegression() throws Exception {
+		StatDefinition statDef = createStatModel(FuncDef.LINEAR_REGRESSION, 5);
+		statDef.setDataWindowPriorityType(Priorities.FIFO.toString());
+		Stat so = Stat.create(statDef);
+		long timestamp = System.currentTimeMillis();
+//		so.compose(new DataBundle(timestamp + 200000, 2290.23999999999));
+		so.compose(new DataBundle(timestamp + 300000, -543.66));
+		so.compose(new DataBundle(timestamp + 400000, -334.85));
+		so.compose(new DataBundle(timestamp + 500000, -117.82));
+		so.compose(new DataBundle(timestamp + 600000, -134.99));
+		StatContext ctx = new StatContext();
+		System.out.println(so.getValue(ctx));
+	}
+
+	@Test
 	public void fifo() throws Exception {
 		StatDefinition statDef = createStatModel(FuncDef.SUM, 3);
 		statDef.setDataWindowPriorityType(Priorities.FIFO.toString());
